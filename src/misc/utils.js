@@ -1,5 +1,11 @@
 import Swal from 'sweetalert2'
 
+const HOST_ADDRESS = 'https://secrets.luka.in.rs/'
+
+export function getScriptUrl(path) {
+  return `${HOST_ADDRESS}${path}`
+}
+
 export function reportSuccess(message) {
   return Swal.fire({
     title: 'Success',
