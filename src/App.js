@@ -1,9 +1,9 @@
 import './App.css';
-import Header from './components/Header'
+import Secrets from './components/Secrets'
 
 function App() {
   return (
-    <Header/>
+    <Secrets/>
   )
 }
 
