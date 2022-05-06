@@ -52,7 +52,7 @@ const Login = ({dispatcher}) => {
 
   return (
     <div className="container">
-      <h1>Login</h1>
+      <h2 className="mt-3">Login</h2>
       <form>
         <div className="row">
           <div className="col-lg-6">

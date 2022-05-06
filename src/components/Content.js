@@ -3,7 +3,7 @@ import Header from './Header.js'
 import Login from './Login.js'
 import Register from './Register.js'
 
-const Secrets = () => {
+const Content = () => {
   const stateManager = (state, action) => {
     switch(action.type) {
       case 'ACTION_HOME':
@@ -33,4 +33,4 @@ const Secrets = () => {
   )
 }
 
-export default Secrets
+export default Content

@@ -18,7 +18,7 @@ const Header = ({username, dispatcher}) => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
         <a className="navbar-brand" href="#" onClick={() => homeAction()}>
-          <span className={styles.logo}><h2>My Secrets</h2></span>
+          <span className={styles.logo}><h2><b>My Secrets</b></h2></span>
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
           aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
