@@ -6,17 +6,17 @@ import axios from 'axios'
 const LOGIN_URL = 'login.php'
 
 const Login = ({dispatcher}) => {
-  const [username, setUsername] = React.useState('')
+  const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const register = () => dispatcher({type: 'ACTION_REGISTER'})
-  const handleUsernameChange = e => setUsername(e.target.value)
+  const handleEmailChange = e => setEmail(e.target.value)
   const handlePasswordChange = e => setPassword(e.target.value)
 
   const checkAndSubmitForm = (e) => {
-    if(username == '') {
-      Utils.reportError('Username must be specified')
+    if(email == '' || !email.includes('@')) {
+      Utils.reportError('Wrong or missing email address')
     }
     else if(password == '') {
       Utils.reportError('Password must be specified')
@@ -30,18 +30,17 @@ const Login = ({dispatcher}) => {
   const submitForm = () => {
     setLoading(true)
     let formData = new FormData()
-    formData.append("username", username)
+    formData.append("email", email)
     formData.append("password", password)
     axios.post(Utils.getScriptUrl(LOGIN_URL), formData, {
     }).then(result => {
       let data = result.data
       console.log(data)
       if(data.token.length > 0) {
-        //vue.setAuthorization(data.username, data.token)
-        //vue.$router.push({name: 'Home'})
+        Utils.reportSuccess(`LOGIN OK: ${data.token}`)
       }
       else {
-        Utils.reportError("Wrong username/password")
+        Utils.reportError("Wrong email/password")
       }
     }).catch(error => {
       Utils.reportError(`Login error: ${error}`)
@@ -56,9 +55,9 @@ const Login = ({dispatcher}) => {
       <form>
         <div className="row">
           <div className="col-lg-6">
-            <label htmlFor="username">Username:</label>
-            <input className="form-control" type="text" name="username" id="username"
-              value={username} onChange={handleUsernameChange}/>
+            <label htmlFor="email">Email:</label>
+            <input className="form-control" type="text" name="email" id="email"
+              value={email} onChange={handleEmailChange}/>
           </div>
           <div className="col-lg-6">
             <label htmlFor="password">Password:</label>
