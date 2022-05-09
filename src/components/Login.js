@@ -8,13 +8,14 @@ const LOGIN_URL = 'login.php'
 const Login = ({dispatcher}) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
+  const [busy, setBusy] = React.useState(false)
 
   const register = () => dispatcher({type: 'ACTION_REGISTER'})
   const handleEmailChange = e => setEmail(e.target.value)
   const handlePasswordChange = e => setPassword(e.target.value)
 
   const checkFormAndSubmit = (e) => {
+    e.preventDefault()
     if(email == '' || !email.includes('@')) {
       Utils.reportError('Wrong or missing email address')
     }
@@ -24,11 +25,10 @@ const Login = ({dispatcher}) => {
     else {
       submitForm()
     }
-    e.preventDefault()
   }
 
   const submitForm = () => {
-    setLoading(true)
+    setBusy(true)
     let formData = new FormData()
     formData.append("email", email)
     formData.append("password", password)
@@ -37,15 +37,15 @@ const Login = ({dispatcher}) => {
       let data = result.data
       //console.log(data)
       if(data.token.length > 0) {
-        Utils.reportSuccess(`LOGIN OK: ${data.token}`)
+        Utils.reportSuccess(`Login OK`)
       }
       else {
-        Utils.reportError("Wrong email/password")
+        Utils.reportError("Login failed")
       }
     }).catch(error => {
       Utils.reportError(`Login error: ${error}`)
     }).finally(() => {
-      setLoading(false)
+      setBusy(false)
     })
   }
 
@@ -68,7 +68,7 @@ const Login = ({dispatcher}) => {
         <div className="row mt-3">
           <div className="col-lg-6">
             <button type="submit" className="btn btn-sm btn-primary">
-              Submit {loading && <Spinner/>}
+              Submit {busy && <Spinner/>}
             </button>
           </div>
           <div className="col-lg-6">

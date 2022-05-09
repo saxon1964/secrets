@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Spinner from './Spinner.js'
+import Activator from './Activator.js'
 import * as Utils from '../misc/utils.js'
 import axios from 'axios'
 
@@ -18,7 +19,10 @@ const Register = ({dispatcher}) => {
 
   const checkFormAndSubmit = (e) => {
     e.preventDefault()
-    if(email == '' || !email.includes('@')) {
+    if(registered) {
+      Utils.reportError('Please enter the activation code')
+    }
+    else if(email == '' || !email.includes('@')) {
       Utils.reportError('Missing or invalid email address')
     }
     else if(pass1 == '') {
@@ -88,15 +92,18 @@ const Register = ({dispatcher}) => {
         </div>
         <div className="row mt-3">
           <div className="col-lg-6">
-            <button type="submit" className="btn btn-sm btn-primary">
-              Submit {busy && <Spinner/>}
+            <button type="submit" className="btn btn-sm btn-primary" disabled={registered}>
+              Register {busy && <Spinner/>}
             </button>
-          </div>
-          <div className="col-lg-6">
-            {registered && <p>Registered!</p>}
           </div>
         </div>
       </form>
+      {registered && (
+        <>
+          <hr/>
+          <Activator dispatcher={dispatcher} email={email}/>
+        </>
+      )}
     </div>
   )
 }
