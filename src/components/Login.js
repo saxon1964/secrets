@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
 import axios from 'axios'
@@ -14,7 +14,7 @@ const Login = ({dispatcher}) => {
   const handleEmailChange = e => setEmail(e.target.value)
   const handlePasswordChange = e => setPassword(e.target.value)
 
-  const checkAndSubmitForm = (e) => {
+  const checkFormAndSubmit = (e) => {
     if(email == '' || !email.includes('@')) {
       Utils.reportError('Wrong or missing email address')
     }
@@ -35,7 +35,7 @@ const Login = ({dispatcher}) => {
     axios.post(Utils.getScriptUrl(LOGIN_URL), formData, {
     }).then(result => {
       let data = result.data
-      console.log(data)
+      //console.log(data)
       if(data.token.length > 0) {
         Utils.reportSuccess(`LOGIN OK: ${data.token}`)
       }
@@ -52,7 +52,7 @@ const Login = ({dispatcher}) => {
   return (
     <div className="container">
       <h2 className="mt-3">Login</h2>
-      <form>
+      <form onSubmit={checkFormAndSubmit}>
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="email">Email:</label>
@@ -67,7 +67,7 @@ const Login = ({dispatcher}) => {
         </div>
         <div className="row mt-3">
           <div className="col-lg-6">
-            <button type="submit" className="btn btn-sm btn-primary" onClick={checkAndSubmitForm}>
+            <button type="submit" className="btn btn-sm btn-primary">
               Submit {loading && <Spinner/>}
             </button>
           </div>

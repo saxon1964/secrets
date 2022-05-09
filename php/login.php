@@ -8,8 +8,8 @@ header('Content-Type: application/json');
 
 checkVueRequestMethod('POST');
 
-$salt = 'c4r4mb4';
-$hash_alg = 'sha512';
+$salt = $CFG['PASSWORD_SALT'];
+$hash_alg = $CFG['HASH_ALG'];
 $data = array('token' => '', 'email' => '');
 
 if (isset($_POST['email']) && isset($_POST['password'])) {
