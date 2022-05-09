@@ -3,17 +3,17 @@ import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
 import axios from 'axios'
 
-const ACTIVATOR_URL = 'activator.php'
+const ACTIVATOR_URL = 'activate.php'
 
 const Activator = ({dispatcher, email}) => {
   const [busy, setBusy] = React.useState(false)
-  const [code, setCode] = React.useState('')
+  const [activation, setActivation] = React.useState('')
 
-  const updateCode = (e) => setCode(e.target.value)
+  const updateActivation = (e) => setActivation(e.target.value)
 
   const checkFormAndSubmit = (e) => {
     e.preventDefault()
-    if(code == '') {
+    if(activation == '') {
       Utils.reportError('Activation code must be provided')
     }
     else {
@@ -25,16 +25,18 @@ const Activator = ({dispatcher, email}) => {
     setBusy(true)
     let formData = new FormData()
     formData.append("email", email)
-    formData.append("code", code)
+    formData.append("activation", activation)
     axios.post(Utils.getScriptUrl(ACTIVATOR_URL), formData, {
     }).then(result => {
       let data = result.data
       //console.log(data)
       if(data.status == 0) {
-        Utils.reportSuccess(`Username ${email} registered and activated. You can log in now`)
+        Utils.reportSuccess(`Username ${email} registered and activated. You can log in now`).then(() => {
+          dispatcher({type: 'ACTION_HOME'})
+        })
       }
       else {
-        Utils.reportError('Registration failed. Wrong registration code?')
+        Utils.reportError('Registration failed. Wrong registration code or already registered?')
       }
     }).catch(error => {
       Utils.reportError(`Registration error: ${error}`)
@@ -47,8 +49,9 @@ const Activator = ({dispatcher, email}) => {
     <form onSubmit={checkFormAndSubmit}>
       <div className="row">
         <div className="col-lg-auto">
-          <label htmlFor="code">Activation code:</label>
-          <input type="text" className="form-control" name="code" id="code" value={code} onChange={updateCode}/>
+          <label htmlFor="activation">Activation code:</label>
+          <input type="text" className="form-control" name="activation" id="activation"
+            value={activation} onChange={updateActivation}/>
         </div>
       </div>
       <div className="row mt-3">
