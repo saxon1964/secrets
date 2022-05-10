@@ -1,17 +1,18 @@
 import * as React from 'react'
 import styles from './Header.module.css'
 
-const Header = ({username, dispatcher}) => {
+const Header = ({email, dispatcher}) => {
   const logoutAction = () => {
-    dispatcher({
-      type: 'ACTION_LOGOUT'
-    })
+    dispatcher({type: 'ACTION_LOGOUT'})
   }
 
   const homeAction = () => {
-    dispatcher({
-      type: 'ACTION_HOME'
-    })
+    dispatcher({type: 'ACTION_HOME'})
+  }
+
+  const username = (email) => {
+    const pos = email.indexOf('@')
+    return email.substring(0, pos)
   }
 
   return (
@@ -26,10 +27,10 @@ const Header = ({username, dispatcher}) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            {username.length > 0 && (
+            {email.length > 0 && (
               <div className="dropdown">
                 <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  Hello {username}
+                  Hello {username(email)}
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li><a className="dropdown-item" onClick={() => logoutAction()}>Logout</a></li>

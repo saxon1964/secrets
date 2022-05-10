@@ -37,7 +37,9 @@ const Login = ({dispatcher}) => {
       let data = result.data
       //console.log(data)
       if(data.token.length > 0) {
-        Utils.reportSuccess(`Login OK`)
+        Utils.reportSuccess(`Login OK`).then(() => {
+          dispatch({type: 'ACTION_AUTHENTICATED', payload: {email: email, token: data.token}})
+        })
       }
       else {
         Utils.reportError("Login failed")
