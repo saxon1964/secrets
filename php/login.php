@@ -6,7 +6,7 @@ require_once('authCheck.php');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-checkVueRequestMethod('POST');
+checkRequestMethod('POST');
 
 $salt = $CFG['PASSWORD_SALT'];
 $hash_alg = $CFG['HASH_ALG'];
@@ -24,13 +24,18 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $agent_sql = addslashes($agent);
     $result = query("SELECT * FROM users WHERE email='$email_sql' AND password='$password_hash_sql' AND active=1");
     if ($user = $result->fetch_assoc()) {
-        // password ok
+      // password ok
+      while(true) {
         $token = hash($hash_alg, random_bytes(64));
         $token_sql = addslashes(hash($hash_alg, $token));
-        query("INSERT INTO sessions (email, ip, token, agent, status) " .
-          "VALUES ('$email_sql', '$ip_sql', '$token_sql', '$agent_sql', 1)");
-        $data['token'] = $token;
-        $data['email'] = $user['email'];
+        if(get_single_row("SELECT * FROM sessions WHERE token='$token_sql'") == null) {
+          query("INSERT INTO sessions (email, ip, token, agent, status) " .
+            "VALUES ('$email_sql', '$ip_sql', '$token_sql', '$agent_sql', 1)");
+          $data['token'] = $token;
+          $data['email'] = $user['email'];
+          break;
+        }
+      }
     } else {
         // bad password, log the attempt but do not log bad password
         query("INSERT INTO sessions (email, ip, token, agent, status) " .

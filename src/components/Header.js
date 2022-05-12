@@ -1,14 +1,10 @@
 import * as React from 'react'
-import styles from './Header.module.css'
+import styles from './css/Header.module.css'
 import axios from 'axios'
 
 const Header = ({email, token, dispatcher}) => {
   const homeAction = () => dispatcher({type: 'ACTION_HOME'})
-
-  const logoutAction = () => {
-    
-    dispatcher({type: 'ACTION_LOGOUT'})
-  }
+  const logoutAction = () => dispatcher({type: 'ACTION_LOGOUT'})
 
   const username = (email) => {
     const pos = email.indexOf('@')

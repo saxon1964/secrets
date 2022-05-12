@@ -6,7 +6,7 @@ require_once('authCheck.php');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-checkVueRequestMethod('POST');
+checkRequestMethod('POST');
 
 $salt = $CFG['PASSWORD_SALT'];
 $hash_alg = $CFG['HASH_ALG'];

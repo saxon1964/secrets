@@ -32,7 +32,7 @@ function checkAuthToken()
     }
 }
 
-function checkVueRequestMethod($method)
+function checkRequestMethod($method)
 {
     if ($_SERVER['REQUEST_METHOD'] !== $method) {
         $result = array("authCheck" => false);

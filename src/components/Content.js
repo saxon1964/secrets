@@ -3,6 +3,7 @@ import Header from './Header.js'
 import Login from './Login.js'
 import Register from './Register.js'
 import Secrets from './Secrets.js'
+import SessionChecker from './SessionChecker.js'
 
 const Content = () => {
   const initState = {
@@ -39,6 +40,7 @@ const Content = () => {
       {state.view == 'HOME' && state.email == '' && <Login dispatcher={dispatch}/>}
       {state.view == 'REGISTER' && state.email == '' && <Register dispatcher={dispatch}/>}
       {state.view == 'HOME' && state.email != '' && <Secrets dispatcher={dispatch}/>}
+      <SessionChecker token={state.token} dispatcher={dispatch}/>
     </>
   )
 }

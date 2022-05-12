@@ -1,9 +1,17 @@
 import Swal from 'sweetalert2'
 
-const HOST_ADDRESS = 'https://secrets.luka.in.rs/'
+const HOST_ADDRESS = 'https://secrets.luka.in.rs'
+const AUTH_HEADER_NAME = 'Authorization'
+const AUTH_HEADER_VALUE_PREFIX = 'Bearer: '
 
 export function getScriptUrl(path) {
-  return `${HOST_ADDRESS}${path}`
+  return `${HOST_ADDRESS}/php/${path}`
+}
+
+export function getAuthorizationHeader(token) {
+  let header = {}
+  header[AUTH_HEADER_NAME] = AUTH_HEADER_VALUE_PREFIX + token
+  return header
 }
 
 export function reportSuccess(message) {

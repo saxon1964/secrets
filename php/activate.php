@@ -6,7 +6,7 @@ require_once('authCheck.php');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-checkVueRequestMethod('POST');
+checkRequestMethod('POST');
 
 function echoStatus($status) {
   echo(json_encode(array('status' => $status)));
