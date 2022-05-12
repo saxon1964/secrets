@@ -52,8 +52,8 @@ const Login = ({dispatcher}) => {
   }
 
   return (
-    <div className="container">
-      <h2 className="mt-3">Login</h2>
+    <div className="container secretContainer">
+      <h2>Login</h2>
       <form onSubmit={checkFormAndSubmit}>
         <div className="row">
           <div className="col-lg-6">

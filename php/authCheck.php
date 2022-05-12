@@ -6,10 +6,10 @@ define("AUTH_HEADER_NAME", 'Authorization');
 define("AUTH_HEADER_VALUE_PREFIX", 'Bearer: ');
 
 header('Access-Control-Allow-Headers: ' . AUTH_HEADER_NAME);
-$hash_alg = $CFG['HASH_ALG'];
 
 function getAuthToken()
 {
+    global $CFG;
     $headers = getallheaders();
     if (!array_key_exists(AUTH_HEADER_NAME, $headers)) {
         return null;
@@ -19,7 +19,7 @@ function getAuthToken()
         return null;
     }
     $token = substr($header, strlen(AUTH_HEADER_VALUE_PREFIX));
-    $token_sql = addslashes(hash($hash_alg, $token));
+    $token_sql = addslashes(hash($CFG['HASH_ALG'], $token));
     return get_single_value("SELECT token FROM sessions WHERE token='$token_sql' AND status=1 LIMIT 1");
 }
 

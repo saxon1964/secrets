@@ -1,1 +1,5 @@
-/* NOP */
+.secretContainer {
+    background: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}

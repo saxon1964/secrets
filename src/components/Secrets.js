@@ -6,8 +6,8 @@ import axios from 'axios'
 const Secrets = ({dispatcher}) => {
 
   return (
-    <div className="container">
-      <h2 className="mt-3">Secrets</h2>
+    <div className="container secretContainer">
+      <h2>Secrets</h2>
     </div>
   )
 }
