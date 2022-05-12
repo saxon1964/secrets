@@ -6,8 +6,9 @@ define("AUTH_HEADER_NAME", 'Authorization');
 define("AUTH_HEADER_VALUE_PREFIX", 'Bearer: ');
 
 header('Access-Control-Allow-Headers: ' . AUTH_HEADER_NAME);
+$hash_alg = $CFG['HASH_ALG'];
 
-function getVueAuthToken()
+function getAuthToken()
 {
     $headers = getallheaders();
     if (!array_key_exists(AUTH_HEADER_NAME, $headers)) {
@@ -18,13 +19,13 @@ function getVueAuthToken()
         return null;
     }
     $token = substr($header, strlen(AUTH_HEADER_VALUE_PREFIX));
-    $token_sql = addslashes(md5($token));
-    return get_single_value("SELECT cookie FROM sessions WHERE cookie='$token_sql' AND status=1 LIMIT 1");
+    $token_sql = addslashes(hash($hash_alg, $token));
+    return get_single_value("SELECT token FROM sessions WHERE token='$token_sql' AND status=1 LIMIT 1");
 }
 
-function checkVueAuthToken()
+function checkAuthToken()
 {
-    if (getVueAuthToken() == null) {
+    if (getAuthToken() == null) {
         $result = array("authCheck" => false);
         echo(json_encode($result));
         exit(-1);

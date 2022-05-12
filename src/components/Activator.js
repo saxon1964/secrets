@@ -32,7 +32,7 @@ const Activator = ({dispatcher, email}) => {
       //console.log(data)
       if(data.status == 0) {
         Utils.reportSuccess(`Username ${email} registered and activated. You can log in now`).then(() => {
-          dispatcher({type: 'ACTION_HOME'})
+          dispatcher({type: 'ACTION_REGISTERED'})
         })
       }
       else {
