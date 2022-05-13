@@ -39,7 +39,7 @@ const Content = () => {
       <Header email={state.email} token={state.token} dispatcher={dispatch}/>
       {state.view == 'HOME' && state.email == '' && <Login dispatcher={dispatch}/>}
       {state.view == 'REGISTER' && state.email == '' && <Register dispatcher={dispatch}/>}
-      {state.view == 'HOME' && state.email != '' && <Secrets dispatcher={dispatch}/>}
+      {state.view == 'HOME' && state.email != '' && <Secrets token={state.token} dispatcher={dispatch}/>}
       <SessionChecker token={state.token} dispatcher={dispatch}/>
     </>
   )
