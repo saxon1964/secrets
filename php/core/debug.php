@@ -94,7 +94,14 @@ class debug
           'queryTime' => $this->query_time(),
           'pageTime' => $this->page_time(),
           'commit' => $this->commit()
-      );
-      return $result;
+        );
+        return $result;
+    }
+    
+    public function dump($filename) {
+        $fp = fopen($filename, 'w');
+        $text = print_r($this->info(), true);
+        fwrite($fp, $text);
+        fclose($fp);
     }
 }
