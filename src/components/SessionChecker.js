@@ -9,17 +9,19 @@ const SessionChecker = ({token, dispatcher}) => {
   const [lastToken, setLastToken] = React.useState(token)
 
   React.useEffect(() => {
-    console.log("HERE1")
     if(lastToken != '' && token == '') {
+      console.log(`Logout action requested`)
       // logout action
-      axios.post(Utils.getScriptUrl(LOGOUT_URL), {
+      axios.post(Utils.getScriptUrl(LOGOUT_URL), new FormData(), {
         headers: Utils.getAuthorizationHeader(lastToken)
       }).then(result => {
-        if(result.data.status == 1) {
-          console.log("Session ended")
+        //console.log(result.data)
+        if(result.data.status == 0) {
+          Utils.reportSuccess(`Logout successful`)
+          console.log(`Logout successful`)
         }
         else {
-          Utils.reportError(`Error while logging out`)
+          Utils.reportError(`Error while logging out [code ${result.data.status}]`)
         }
       }).catch(error => {
         Utils.reportError(`Error while ending session: ${error}`)
@@ -29,8 +31,8 @@ const SessionChecker = ({token, dispatcher}) => {
   }, [token])
 
   React.useEffect(() => {
-    console.log("HERE2")
     if(token != '') {
+      console.log(`Checking session for token: ${token}`)
       axios.get(Utils.getScriptUrl(VERIFY_SESSION_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {

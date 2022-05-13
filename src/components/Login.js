@@ -35,7 +35,7 @@ const Login = ({dispatcher}) => {
     axios.post(Utils.getScriptUrl(LOGIN_URL), formData, {
     }).then(result => {
       let data = result.data
-      console.log(data)
+      //console.log(data)
       if(data.token.length > 0) {
         Utils.reportSuccess(`Login OK`).then(() => {
           dispatcher({type: 'ACTION_AUTHENTICATED', payload: {email: email, token: data.token}})
