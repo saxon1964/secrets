@@ -12,7 +12,7 @@ $token = getAuthToken();
 $target = '';
 if($token != null) {
   $token_sql = addslashes($token);
-  $target = get_single_value("SELECT users.target FROM users, sessions WHERE users.email=sessions.email AND sessions.token='$token_sql'");
+  $target = get_single_value("SELECT users.target FROM users, sessions WHERE users.id=sessions.userid AND sessions.token='$token_sql'");
 }
 
 echo(json_encode(array('target' => $target)));

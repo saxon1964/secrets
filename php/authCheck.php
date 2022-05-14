@@ -22,8 +22,7 @@ function getAuthToken()
     $token = substr($header, strlen(AUTH_HEADER_VALUE_PREFIX));
     $token_sql = addslashes(hash($CFG['HASH_ALG'], $token));
     $query = "SELECT token FROM sessions WHERE token='$token_sql' AND status=1 LIMIT 1";
-    $t = get_single_value($query);
-    return $t;
+    return get_single_value($query);
 }
 
 function checkAuthToken()
@@ -39,7 +38,7 @@ function checkAuthToken()
 function checkRequestMethod($method)
 {
     if ($_SERVER['REQUEST_METHOD'] !== $method) {
-        $result = array("authCheck" => 35);
+        $result = array("methodCheck" => false);
         echo(json_encode($result));
         exit(-1);
     }

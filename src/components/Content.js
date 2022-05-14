@@ -20,6 +20,8 @@ const Content = () => {
         return { view: 'HOME', email: '', token: '' }
       case 'ACTION_REGISTER':
         return { view: 'REGISTER', email: '', token: '' }
+      case 'ACTION_REGISTERED':
+        return { view: 'HOME', email: '', token: '' }
       case 'ACTION_AUTHENTICATED':
         return { view: 'HOME', email: action.payload.email, token: action.payload.token}
       default:

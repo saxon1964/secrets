@@ -7,11 +7,13 @@ const TARGET_URL = 'getTarget.php'
 
 const Secrets = ({token, dispatcher}) => {
   const [target, setTarget] = React.useState('')
+  const [masterPass, setMasterPass] = React.useState('')
 
   React.useEffect(() => {
     axios.get(Utils.getScriptUrl(TARGET_URL), {
       headers: Utils.getAuthorizationHeader(token)
     }).then(result => {
+      console.log(result.data)
       if(result.data.target != target) {
         setTarget(result.data.target)
       }
@@ -23,11 +25,8 @@ const Secrets = ({token, dispatcher}) => {
   return (
     <div className="container secretContainer">
       <h2>Secrets</h2>
-      {target == '' ? (
-        <p>It seems that you haven't set your master password yet</p>
-      ) : (
-        <p>Please enter your master password</p>
-      )}
+      {target == '' && (<p>You have to choose your master password now</p>)}
+      {target != '' && (<p>Enter your master password now</p>)}
     </div>
   )
 }
