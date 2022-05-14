@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2'
+import sjcl from 'sjcl'
 
 const HOST_ADDRESS = 'https://secrets.luka.in.rs'
 const AUTH_HEADER_NAME = 'Authorization'
@@ -80,4 +81,22 @@ export function takeInput(title, question, isPassword) {
       autocorrect: 'off'
     }
   })
+}
+
+export function randomString(length) {
+  var result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (var i = 0; i < length; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
+export function encrypt(password, plainText) {
+  return sjcl.encrypt(password, plainText)
+}
+
+export function decrypt(password, encryptedText) {
+  return sjcl.decrypt(password, encryptedText)
 }

@@ -1,6 +1,9 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
+import MasterPassSelector from './MasterPassSelector.js'
+import MasterPassChecker from './MasterPassChecker.js'
+import SecretList from './SecretList.js'
 import axios from 'axios'
 
 const TARGET_URL = 'getTarget.php'
@@ -25,8 +28,9 @@ const Secrets = ({token, dispatcher}) => {
   return (
     <div className="container secretContainer">
       <h2>Secrets</h2>
-      {target == '' && (<p>You have to choose your master password now</p>)}
-      {target != '' && (<p>Enter your master password now</p>)}
+      {masterPass == '' && target == '' && <MasterPassSelector token={token} setMasterPass={setMasterPass}/>}
+      {masterPass == '' && target != '' && <MasterPassChecker target={target} setMasterPass={setMasterPass}/>}
+      {masterPass != '' && <SecretList token={token} masterPass={masterPass}/>}
     </div>
   )
 }
