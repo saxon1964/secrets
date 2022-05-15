@@ -16,7 +16,7 @@ const Secrets = ({token, dispatcher}) => {
     axios.get(Utils.getScriptUrl(TARGET_URL), {
       headers: Utils.getAuthorizationHeader(token)
     }).then(result => {
-      console.log(result.data)
+      //console.log(result.data)
       if(result.data.target != target) {
         setTarget(result.data.target)
       }

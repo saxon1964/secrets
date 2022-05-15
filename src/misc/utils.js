@@ -85,7 +85,7 @@ export function takeInput(title, question, isPassword) {
 
 export function randomString(length) {
   var result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%&*_-+=.,/:|';
   const charactersLength = characters.length;
   for (var i = 0; i < length; i++ ) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));

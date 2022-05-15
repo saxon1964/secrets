@@ -44,7 +44,7 @@ const Register = ({dispatcher}) => {
     axios.post(Utils.getScriptUrl(REGISTER_URL), formData, {
     }).then(result => {
       let data = result.data
-      console.log(data)
+      //console.log(data)
       switch(data.status) {
         case 0:
           Utils.reportSuccess('Registration successfull. Check your email and look for the registration code')
