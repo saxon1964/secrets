@@ -7,7 +7,7 @@ import sjcl from 'sjcl'
 
 const RANDOM_PASSWORD_LENGTH = 12
 
-const NewPass = ({token, masterPass, cancel}) => {
+const NewPass = ({token, masterPass, submitData}) => {
   const [name, setName] = React.useState('')
   const [host, setHost] = React.useState('')
   const [username, setUsername] = React.useState('')
@@ -20,6 +20,25 @@ const NewPass = ({token, masterPass, cancel}) => {
 
   const checkForm = (e) => {
     e.preventDefault()
+    if(name.length == 0) {
+      Utils.reportError('Name must be specified')
+    }
+    else if(username.length == 0) {
+      Utils.reportError('Username must be specified')
+    }
+    else if(password.length == 0) {
+      Utils.reportError('Password must be specified')
+    }
+    else {
+      const data = {
+        'name': name,
+        'host': host,
+        'username': username,
+        'password': password,
+        'note': note
+      }
+      submitData(data)
+    }
   }
 
   return (
@@ -59,7 +78,7 @@ const NewPass = ({token, masterPass, cancel}) => {
           </div>
           <div className="col-lg-12 mt-2">
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
-            <button type="button" className="btn btn-sm btn-secondary" onClick={e => cancel()}>Cancel</button>
+            <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(false)}>Cancel</button>
           </div>
         </div>
       </form>
