@@ -6,29 +6,6 @@ const VERIFY_SESSION_URL = 'verifySession.php'
 const LOGOUT_URL = 'logout.php'
 
 const SessionChecker = ({token, dispatcher}) => {
-  const [lastToken, setLastToken] = React.useState(token)
-
-  React.useEffect(() => {
-    if(lastToken != '' && token == '') {
-      console.log(`Logout action requested`)
-      // logout action
-      axios.post(Utils.getScriptUrl(LOGOUT_URL), new FormData(), {
-        headers: Utils.getAuthorizationHeader(lastToken)
-      }).then(result => {
-        //console.log(result.data)
-        if(result.data.status == 0) {
-          Utils.reportSuccess(`Logout successful`)
-          console.log(`Logout successful`)
-        }
-        else {
-          Utils.reportError(`Error while logging out [code ${result.data.status}]`)
-        }
-      }).catch(error => {
-        Utils.reportError(`Error while ending session: ${error}`)
-      })
-    }
-    setLastToken(token)
-  }, [token])
 
   React.useEffect(() => {
     if(token != '') {
@@ -36,9 +13,9 @@ const SessionChecker = ({token, dispatcher}) => {
       axios.get(Utils.getScriptUrl(VERIFY_SESSION_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
+        console.log(result.data)
         if(result.data.status == 0) {
-          // stale session, just invalidate it
-          console.log("Invalidating stale session")
+          console.log("Invalidating session that is no longer in the database")
           dispatcher({type: 'ACTION_LOGOUT'})
         }
         else {
@@ -49,9 +26,10 @@ const SessionChecker = ({token, dispatcher}) => {
       })
     }
     else {
-      console.log("Anonimoys session")
+      console.log("Anonymous session")
     }
   }, [token])
+
 }
 
 export default SessionChecker

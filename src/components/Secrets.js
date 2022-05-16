@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const TARGET_URL = 'getTarget.php'
 
-const Secrets = ({token, dispatcher}) => {
+const Secrets = ({token}) => {
   const [target, setTarget] = React.useState('')
   const [masterPass, setMasterPass] = React.useState('')
 

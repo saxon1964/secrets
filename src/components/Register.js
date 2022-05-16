@@ -10,14 +10,14 @@ const Register = ({dispatcher}) => {
   const [email, setEmail] = React.useState('')
   const [pass1, setPass1] = React.useState('')
   const [pass2, setPass2] = React.useState('')
-  const [busy, setBusy] = React.useState(false)
+  const [sending, setSending] = React.useState(false)
   const [registered, setRegistered] = React.useState(false)
 
   const updateEmail = (e) => setEmail(e.target.value)
   const updatePass1 = (e) => setPass1(e.target.value)
   const updatePass2 = (e) => setPass2(e.target.value)
 
-  const checkFormAndSubmit = (e) => {
+  const checkForm = (e) => {
     e.preventDefault()
     if(registered) {
       Utils.reportError('Please enter the activation code')
@@ -32,12 +32,14 @@ const Register = ({dispatcher}) => {
       Utils.reportError('Passwords do not match')
     }
     else {
-      submitForm()
+      setSending(true)
     }
   }
 
-  const submitForm = () => {
-    setBusy(true)
+  React.useEffect(() => {
+    if(!sending) {
+      return
+    }
     let formData = new FormData()
     formData.append("email", email)
     formData.append("password", pass1)
@@ -63,14 +65,14 @@ const Register = ({dispatcher}) => {
     }).catch(error => {
       Utils.reportError(`Registration error: ${error}`)
     }).finally(() => {
-      setBusy(false)
+      setSending(false)
     })
-  }
+  }, [sending])
 
   return (
     <div className="container secretContainer">
       <h2>Register</h2>
-      <form onSubmit={checkFormAndSubmit}>
+      <form onSubmit={checkForm}>
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="email">Email:</label>
@@ -93,7 +95,7 @@ const Register = ({dispatcher}) => {
         <div className="row mt-3">
           <div className="col-lg-6">
             <button type="submit" className="btn btn-sm btn-primary" disabled={registered}>
-              Register {busy && <Spinner/>}
+              Register {sending && <Spinner/>}
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 const Mandatory = () => {
   return (
-    <span className="text-danger"><b><sup>*</sup></b></span>
+    <span className="text-danger"><sup><b>*</b></sup></span>
   )
 }
 

@@ -26,7 +26,7 @@ const Header = ({email, token, dispatcher}) => {
             {email.length > 0 && (
               <div className="dropdown">
                 <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                  Hello {username(email)}
+                  Hello <b>{username(email)}</b>
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li><a className="dropdown-item" onClick={logoutAction}>Logout</a></li>

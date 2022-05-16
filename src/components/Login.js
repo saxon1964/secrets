@@ -8,13 +8,13 @@ const LOGIN_URL = 'login.php'
 const Login = ({dispatcher}) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [busy, setBusy] = React.useState(false)
+  const [sending, setSending] = React.useState(false)
 
   const register = () => dispatcher({type: 'ACTION_REGISTER'})
   const handleEmailChange = e => setEmail(e.target.value)
   const handlePasswordChange = e => setPassword(e.target.value)
 
-  const checkFormAndSubmit = (e) => {
+  const checkForm = (e) => {
     e.preventDefault()
     if(email == '' || !email.includes('@')) {
       Utils.reportError('Wrong or missing email address')
@@ -23,12 +23,14 @@ const Login = ({dispatcher}) => {
       Utils.reportError('Password must be specified')
     }
     else {
-      submitForm()
+      setSending(true)
     }
   }
 
-  const submitForm = () => {
-    setBusy(true)
+  React.useEffect(() => {
+    if(!sending) {
+      return
+    }
     let formData = new FormData()
     formData.append("email", email)
     formData.append("password", password)
@@ -47,14 +49,14 @@ const Login = ({dispatcher}) => {
     }).catch(error => {
       Utils.reportError(`Login error: ${error}`)
     }).finally(() => {
-      setBusy(false)
+      setSending(false)
     })
-  }
+  }, [sending])
 
   return (
     <div className="container secretContainer">
       <h2>Login</h2>
-      <form onSubmit={checkFormAndSubmit}>
+      <form onSubmit={checkForm}>
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="email">Email:</label>
@@ -70,7 +72,7 @@ const Login = ({dispatcher}) => {
         <div className="row mt-3">
           <div className="col-lg-6">
             <button type="submit" className="btn btn-sm btn-primary">
-              Submit {busy && <Spinner/>}
+              Submit {sending && <Spinner/>}
             </button>
           </div>
           <div className="col-lg-6">

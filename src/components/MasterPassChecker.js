@@ -8,7 +8,7 @@ const MasterPassChecker = ({target, setMasterPass}) => {
 
   const handleMasterChange = (e) => setMaster(e.target.value)
 
-  const checkFormAndSubmit = (e) => {
+  const checkForm = (e) => {
     e.preventDefault()
     if(master.length < MIN_MASTER_PASS_LENGTH) {
       Utils.reportError(`Master password must be at least ${MIN_MASTER_PASS_LENGTH} chars long`)
@@ -20,6 +20,7 @@ const MasterPassChecker = ({target, setMasterPass}) => {
           setMasterPass(master)
         }
         else {
+          // decryption has failed
           throw Error()
         }
       }
@@ -32,7 +33,7 @@ const MasterPassChecker = ({target, setMasterPass}) => {
   return (
     <div>
       <h4>Enter your master password</h4>
-      <form onSubmit={checkFormAndSubmit}>
+      <form onSubmit={checkForm}>
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="master">Master password:</label>

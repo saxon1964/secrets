@@ -13,6 +13,8 @@ const Content = () => {
   }
 
   const stateManager = (state, action) => {
+    console.log("Dispatcher called: " + action.type)
+    console.log(action)
     switch(action.type) {
       case 'ACTION_HOME':
         return { ...state, view: 'HOME' }
@@ -41,7 +43,7 @@ const Content = () => {
       <Header email={state.email} token={state.token} dispatcher={dispatch}/>
       {state.view == 'HOME' && state.email == '' && <Login dispatcher={dispatch}/>}
       {state.view == 'REGISTER' && state.email == '' && <Register dispatcher={dispatch}/>}
-      {state.view == 'HOME' && state.email != '' && <Secrets token={state.token} dispatcher={dispatch}/>}
+      {state.view == 'HOME' && state.email != '' && <Secrets token={state.token}/>}
       <SessionChecker token={state.token} dispatcher={dispatch}/>
     </>
   )

@@ -9,12 +9,12 @@ const MIN_MASTER_PASS_LENGTH = 8
 const MasterPassSelector = ({token, setMasterPass}) => {
   const [master1, setMaster1] = React.useState('')
   const [master2, setMaster2] = React.useState('')
-  const [busy, setBusy] = React.useState(false)
+  const [sending, setSending] = React.useState(false)
 
   const handleMaster1Change = (e) => setMaster1(e.target.value)
   const handleMaster2Change = (e) => setMaster2(e.target.value)
 
-  const checkFormAndSubmit = (e) => {
+  const checkForm = (e) => {
     e.preventDefault()
     if(master1.length < MIN_MASTER_PASS_LENGTH) {
       Utils.reportError(`Master password must be at least ${MIN_MASTER_PASS_LENGTH} chars long`)
@@ -23,12 +23,14 @@ const MasterPassSelector = ({token, setMasterPass}) => {
       Utils.reportError("Master passwords do not match")
     }
     else {
-      submitForm()
+      setSending(true)
     }
   }
 
-  const submitForm = () => {
-    setBusy(true)
+  React.useEffect(() => {
+    if(!sending) {
+      return
+    }
     // get random word
     const target = Utils.randomString(64)
     const encrypted = Utils.encrypt(master1, target)
@@ -48,21 +50,21 @@ const MasterPassSelector = ({token, setMasterPass}) => {
     }).catch(error => {
       Utils.reportError(`Error while creating master password: ${error}`)
     }).finally(() => {
-      setBusy(false)
+      setSending(false)
     })
-  }
+  }, [sending])
 
   return (
     <div>
       <h4>Create your master password</h4>
+      <p>It seems that you have not defined your master password yet. You have to do it now.</p>
+      <p><b>The master password will never be transmitted over the internetand it won't be stored anywhere.</b></p>
       <p>
-        It seems that you have not defined your master password yet. You have ot do it now.
-        The master password will never be transmitted over the internetand it won't be stored
-        anywhere. If you lose it or foget it, it's gone forever. In that case, all your secrets
-        will be lost. So choose your master password carefully, write it down, and store it in some
-        well protected, secret place.
+        If you lose it or foget it, it's gone forever. In that case, all your secrets
+        will be lost. So choose your master password carefully, write it down, and <b>store it in some
+        well protected, secret place</b>.
       </p>
-      <form onSubmit={checkFormAndSubmit}>
+      <form onSubmit={checkForm}>
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="master1">Master password:</label>
@@ -78,7 +80,7 @@ const MasterPassSelector = ({token, setMasterPass}) => {
         <div className="row mt-3">
           <div className="col-lg-6">
             <button type="submit" className="btn btn-sm btn-primary">
-              Submit {busy && <Spinner/>}
+              Submit {sending && <Spinner/>}
             </button>
           </div>
         </div>

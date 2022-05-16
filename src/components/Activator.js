@@ -6,23 +6,25 @@ import axios from 'axios'
 const ACTIVATOR_URL = 'activate.php'
 
 const Activator = ({dispatcher, email}) => {
-  const [busy, setBusy] = React.useState(false)
+  const [sending, setSending] = React.useState(false)
   const [activation, setActivation] = React.useState('')
 
   const updateActivation = (e) => setActivation(e.target.value)
 
-  const checkFormAndSubmit = (e) => {
+  const checkForm = (e) => {
     e.preventDefault()
     if(activation == '') {
       Utils.reportError('Activation code must be provided')
     }
     else {
-      submitForm()
+      setSending(true)
     }
   }
 
-  const submitForm = () => {
-    setBusy(true)
+  React.useEffect(() => {
+    if(!sending) {
+      return
+    }
     let formData = new FormData()
     formData.append("email", email)
     formData.append("activation", activation)
@@ -41,12 +43,12 @@ const Activator = ({dispatcher, email}) => {
     }).catch(error => {
       Utils.reportError(`Registration error: ${error}`)
     }).finally(() => {
-      setBusy(false)
+      setSending(false)
     })
-  }
+  }, [sending])
 
   return (
-    <form onSubmit={checkFormAndSubmit}>
+    <form onSubmit={checkForm}>
       <div className="row">
         <div className="col-lg-auto">
           <label htmlFor="activation">Activation code:</label>
@@ -55,7 +57,11 @@ const Activator = ({dispatcher, email}) => {
         </div>
       </div>
       <div className="row mt-3">
-        <div className="col-lg-auto"><button type="submit" className="btn btn-danger btn-sm">Activate</button></div>
+        <div className="col-lg-auto">
+          <button type="submit" className="btn btn-danger btn-sm">
+            Activate {sending && <Spinner/>}
+          </button>
+        </div>
       </div>
     </form>
   )

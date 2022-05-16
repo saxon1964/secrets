@@ -1,6 +1,6 @@
 const Spinner = () => {
   return (
-    <i className="fa-solid fa-sync fa-spin"></i>
+    <i className="fa-solid fa-sync fa-spin"/>
   )
 }
 
