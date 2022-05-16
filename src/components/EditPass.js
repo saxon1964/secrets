@@ -31,22 +31,23 @@ const EditPass = ({data, submitData}) => {
       Utils.reportError('Password must be specified')
     }
     else {
-      const data = {
-        'id': id,
+      const newData = {
+        id: data.id,
+        type: data.type,
         'name': name,
         'host': host,
         'username': username,
         'password': password,
         'note': note
       }
-      submitData(data)
+      submitData(newData)
     }
   }
 
   return (
     <div>
       <hr/>
-      <h5>New password:</h5>
+      <h5>{data.id == 0? ('New'): ('Edit')} password:</h5>
       <form onSubmit={checkForm}>
         <div className="row mb-3">
           <div className="col-lg-6 mt-2">

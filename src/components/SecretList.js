@@ -4,34 +4,59 @@ import Spinner from './Spinner.js'
 import axios from 'axios'
 import EditPass from './EditPass.js'
 
-const ACTION_NONE       = 0
-const ACTION_PASS       = 1
+const TYPE_NONE       = 0
+const TYPE_PASS       = 1
+
+const ACTION_LOAD_SECRETS = 1
+const ACTION_SECRETS_LOADED = 2
+const ACTION_NEW_SECRET = 3
+const ACTION_IDLE = 4
 
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
 
 const SecretList = ({token, masterPass}) => {
-  const [action, setAction] = React.useState(0)
-  const [busy, setBusy] = React.useState(false)
-  const [reload, setReload] = React.useState(true)
-  const [secrets, setSecrets] = React.useState([])
+  const initState = {
+    secrets: [],
+    loadingSecrets: true,
+    editSecret: {
+      id: 0,
+      type: TYPE_NONE
+    }
+  }
 
+  const stateManager = (state, action) => {
+    switch(action.type) {
+      case ACTION_IDLE:
+        return {...state, editSecret: {id: 0, type: TYPE_NONE}}
+      case ACTION_LOAD_SECRETS:
+        return {...state, loadingSecrets: true}
+      case ACTION_SECRETS_LOADED:
+        return {...state, secrets: action.payload, loadingSecrets: false}
+      case ACTION_NEW_SECRET:
+        return {...state, editSecret: {id: 0, type: action.payload}}
+      default:
+        throw new Error('Unknown action type')
+    }
+  }
+
+  const [state, dispatch] = React.useReducer(stateManager, initState)
+
+  // LOAD SECRETS UPON REQUEST
   React.useEffect(() => {
-    if(reload) {
-      setBusy(true)
+    if(state.loadingSecrets) {
       axios.get(Utils.getScriptUrl(GET_SECRETS_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
-        setSecrets(result.data.map(secret => Utils.decrypt(masterPass, secret.secret)))
+        const secrets = result.data.map(secret => Utils.decrypt(masterPass, secret.secret))
+        const action = {type: ACTION_SECRETS_LOADED, payload: secrets}
+        dispatch(action)
       }).catch(error => {
         Utils.reportError(`Error while saving new secret: ${error}`)
-      }).finally(() => {
-        setReload(false)
-        setBusy(false)
       })
     }
-  }, [reload])
-
+  }, [state.loadingSecrets])
+/*
   const submitData = (action, data) => {
     if(data !== false) {
       setBusy(true)
@@ -60,17 +85,28 @@ const SecretList = ({token, masterPass}) => {
       setAction(ACTION_NONE)
     }
   }
+*/
+  const newSecret = (secretType) => {
+    dispatch({type: ACTION_NEW_SECRET, payload: secretType})
+  }
 
-  const submitDataFunc = (action) => ((data) => submitData(action, data))
+  const saveSecret = (data) => {
+    // data == false means cancel edit
+    if(data === false) {
+      dispatch(ACTION_IDLE)
+      return
+    }
+    console.log(data)
+  }
 
   return (
     <div>
       <div className="btn-group my-3" role="group" aria-label="New secrets">
-        <button type="button" className="btn btn-outline-primary">Create secret: {busy && <Spinner/>}</button>
-        <button type="button" className="btn btn-primary" onClick={() => setAction(ACTION_PASS)}>Password</button>
+        <button type="button" className="btn btn-outline-primary">Create secret: {state.loadingSecrets && <Spinner/>}</button>
+        <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
       </div>
-      {action == ACTION_PASS && <EditPass data={{}} submitData={submitDataFunc(ACTION_PASS)}/>}
-      <h4>Your secrets ({secrets.length})</h4>
+      {state.editSecret.type == TYPE_PASS && <EditPass data={state.editSecret} submitData={saveSecret}/>}
+      <h4>Your secrets ({state.secrets.length})</h4>
     </div>
   )
 }
