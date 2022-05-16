@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
 import axios from 'axios'
-import NewPass from './NewPass.js'
+import EditPass from './EditPass.js'
 
 const ACTION_NONE       = 0
 const ACTION_PASS       = 1
@@ -69,7 +69,7 @@ const SecretList = ({token, masterPass}) => {
         <button type="button" className="btn btn-outline-primary">Create secret: {busy && <Spinner/>}</button>
         <button type="button" className="btn btn-primary" onClick={() => setAction(ACTION_PASS)}>Password</button>
       </div>
-      {action == ACTION_PASS && <NewPass token={token} masterPass={masterPass} submitData={submitDataFunc(ACTION_PASS)}/>}
+      {action == ACTION_PASS && <EditPass data={{}} submitData={submitDataFunc(ACTION_PASS)}/>}
       <h4>Your secrets ({secrets.length})</h4>
     </div>
   )

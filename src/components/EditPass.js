@@ -7,13 +7,14 @@ import sjcl from 'sjcl'
 
 const RANDOM_PASSWORD_LENGTH = 12
 
-const NewPass = ({token, masterPass, submitData}) => {
-  const [name, setName] = React.useState('')
-  const [host, setHost] = React.useState('')
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
+const EditPass = ({data, submitData}) => {
+  const [id, setId] = React.useState(data.id || 0)
+  const [name, setName] = React.useState(data.name || '')
+  const [host, setHost] = React.useState(data.host || '')
+  const [username, setUsername] = React.useState(data.username || '')
+  const [password, setPassword] = React.useState(data.password || '')
+  const [note, setNote] = React.useState(data.note || '')
   const [passwordControl, setPasswordControl] = React.useState('password')
-  const [note, setNote] = React.useState('')
 
   const togglePasswordControlType = () => setPasswordControl(passwordControl == 'password'? 'text': 'password')
   const createRandomPassword = () => setPassword(Utils.randomString(RANDOM_PASSWORD_LENGTH))
@@ -31,6 +32,7 @@ const NewPass = ({token, masterPass, submitData}) => {
     }
     else {
       const data = {
+        'id': id,
         'name': name,
         'host': host,
         'username': username,
@@ -43,6 +45,7 @@ const NewPass = ({token, masterPass, submitData}) => {
 
   return (
     <div>
+      <hr/>
       <h5>New password:</h5>
       <form onSubmit={checkForm}>
         <div className="row mb-3">
@@ -82,8 +85,9 @@ const NewPass = ({token, masterPass, submitData}) => {
           </div>
         </div>
       </form>
+      <hr/>
     </div>
   )
 }
 
-export default NewPass
+export default EditPass
