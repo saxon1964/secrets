@@ -13,8 +13,6 @@ const Content = () => {
   }
 
   const stateManager = (state, action) => {
-    console.log("Dispatcher called: " + action.type)
-    console.log(action)
     switch(action.type) {
       case 'ACTION_HOME':
         return { ...state, view: 'HOME' }

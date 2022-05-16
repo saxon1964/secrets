@@ -1,14 +1,35 @@
 import * as React from 'react'
-import styles from './css/Header.module.css'
+import * as Utils from '../misc/utils.js'
 import axios from 'axios'
+import styles from './css/Header.module.css'
+
+const LOGOUT_URL = 'logout.php'
 
 const Header = ({email, token, dispatcher}) => {
   const homeAction = () => dispatcher({type: 'ACTION_HOME'})
-  const logoutAction = () => dispatcher({type: 'ACTION_LOGOUT'})
 
   const username = (email) => {
     const pos = email.indexOf('@')
     return email.substring(0, pos)
+  }
+
+  const logoutAction = () => {
+    if(token != '') {
+      axios.post(Utils.getScriptUrl(LOGOUT_URL), new FormData(), {
+        headers: Utils.getAuthorizationHeader(token)
+      }).then(result => {
+        if(result.data.status == 0) {
+          Utils.reportSuccess(`Logout successful`)
+          console.log(`Logout successful`)
+          dispatcher({type: 'ACTION_LOGOUT'})
+        }
+        else {
+          Utils.reportError(`Error while logging out (code: ${result.data.status})`)
+        }
+      }).catch(error => {
+        Utils.reportError(`Error while logging out: ${error}`)
+      })
+    }
   }
 
   return (

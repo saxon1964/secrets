@@ -58,9 +58,9 @@ const MasterPassSelector = ({token, setMasterPass}) => {
     <div>
       <h4>Create your master password</h4>
       <p>It seems that you have not defined your master password yet. You have to do it now.</p>
-      <p><b>The master password will never be transmitted over the internetand it won't be stored anywhere.</b></p>
+      <p><b>The master password will never be transmitted over the internet and it won't be stored anywhere.</b></p>
       <p>
-        If you lose it or foget it, it's gone forever. In that case, all your secrets
+        If you lose it or foget it, it's gone forever, kaputt. In that case, all your secrets
         will be lost. So choose your master password carefully, write it down, and <b>store it in some
         well protected, secret place</b>.
       </p>

@@ -13,7 +13,7 @@ const SessionChecker = ({token, dispatcher}) => {
       axios.get(Utils.getScriptUrl(VERIFY_SESSION_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
-        console.log(result.data)
+        //console.log(result.data)
         if(result.data.status == 0) {
           console.log("Invalidating session that is no longer in the database")
           dispatcher({type: 'ACTION_LOGOUT'})
