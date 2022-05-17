@@ -3,11 +3,13 @@ import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
 import axios from 'axios'
 import EditPass from './EditPass.js'
+import EditNote from './EditNote.js'
 import ViewPass from './ViewPass.js'
 
 
 const TYPE_NONE       = ''
 const TYPE_PASS       = 'Password'
+const TYPE_NOTE       = 'Secret note'
 
 const ACTION_LOAD_SECRETS = 1
 const ACTION_SECRETS_LOADED = 2
@@ -117,9 +119,12 @@ const SecretList = ({token, masterPass}) => {
       <div className="btn-group my-3" role="group" aria-label="New secrets">
         <button type="button" className="btn btn-outline-primary">Create secret:</button>
         <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
+        <button type="button" className="btn btn-secondary" onClick={() => newSecret(TYPE_NOTE)}>Secret note</button>
       </div>
       {state.editSecret.data.type == TYPE_PASS &&
         <EditPass id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
+      {state.editSecret.data.type == TYPE_NOTE &&
+        <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       <h4 className="mb-3">Your secrets ({Object.keys(state.secrets).length}) {state.loadingSecrets && <Spinner/>}</h4>
       <div className="row">
         {state.secrets.map(secret => {
