@@ -1,19 +1,11 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import HiddenText from './HiddenText.js'
 
 const ViewPass = ({secret}) => {
   const [expanded, setExpanded] = React.useState(false)
-  const [password, setPassword] = React.useState(secret.password)
-  const [passwordVisible, setPasswordVisible] = React.useState(false)
-  const passwordPlaceholder = '••••••••••••'
 
   const toggleContainer = () => setExpanded(!expanded)
-  const togglePassword = () => setPasswordVisible(!passwordVisible)
-
-  const copyPassword = () => {
-    navigator.clipboard.writeText(password)
-    Utils.reportSuccess("Password copied to clipboard")
-  }
 
   return (
     <div className="col-lg-6">
@@ -30,21 +22,7 @@ const ViewPass = ({secret}) => {
               <tr><td><b>Type:</b></td><td>{secret.type}</td></tr>
               <tr><td><b>Host:</b></td><td>{secret.host}</td></tr>
               <tr><td><b>Username:</b></td><td>{secret.username}</td></tr>
-              <tr>
-                <td>
-                  <b>Password:</b>
-
-                </td>
-                <td>
-                  {passwordVisible? secret.password: passwordPlaceholder}
-                  <button className="ms-2 btn btn-sm btn-primary" onClick={togglePassword}>
-                    {passwordVisible? <i className="fa-solid fa-eye-slash"/>: <i className="fa-solid fa-eye"/>}
-                  </button>
-                  <button className="ms-2 btn btn-sm btn-secondary" onClick={copyPassword}>
-                    <i className="fa-regular fa-copy"></i>
-                  </button>
-                </td>
-              </tr>
+              <tr><td><b>Password:</b></td><td><HiddenText text={secret.password}/></td></tr>
               <tr><td><b>Note:</b></td><td><pre style={{whiteSpace: 'pre-wrap'}}>{secret.note}</pre></td></tr>
             </tbody>
           </table>
