@@ -6,8 +6,8 @@ import EditPass from './EditPass.js'
 import ViewPass from './ViewPass.js'
 
 
-const TYPE_NONE       = 0
-const TYPE_PASS       = 1
+const TYPE_NONE       = ''
+const TYPE_PASS       = 'Password'
 
 const ACTION_LOAD_SECRETS = 1
 const ACTION_SECRETS_LOADED = 2
@@ -65,7 +65,7 @@ const SecretList = ({token, masterPass}) => {
           return decrypted
         })
         secrets.sort((s1, s2) => s1.name.localeCompare(s2.name))
-        console.log(secrets)
+        //console.log(secrets)
         dispatch({type: ACTION_SECRETS_LOADED, payload: secrets})
       }).catch(error => {
         Utils.reportError(`Error while loading secrets: ${error}`)
@@ -120,12 +120,12 @@ const SecretList = ({token, masterPass}) => {
       </div>
       {state.editSecret.data.type == TYPE_PASS &&
         <EditPass id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
-      <h4>Your secrets ({Object.keys(state.secrets).length}) {state.loadingSecrets && <Spinner/>}</h4>
+      <h4 className="mb-3">Your secrets ({Object.keys(state.secrets).length}) {state.loadingSecrets && <Spinner/>}</h4>
       <div className="row">
-        {state.secrets.map(secret =>
-          <>
-            <ViewPass secret={secret} key={secret.id}/>
-          </>
+        {state.secrets.map(secret => {
+          return (
+            (secret.type == TYPE_PASS && <ViewPass secret={secret} key={secret.id}/>)
+          )
         })}
       </div>
     </div>
