@@ -5,6 +5,7 @@ import axios from 'axios'
 import EditPass from './EditPass.js'
 import EditNote from './EditNote.js'
 import ViewPass from './ViewPass.js'
+import ViewNote from './ViewNote.js'
 
 
 const TYPE_NONE       = ''
@@ -114,6 +115,10 @@ const SecretList = ({token, masterPass}) => {
     dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
   }
 
+  const secretAction = (id) => {
+    alert(id)
+  }
+
   return (
     <div>
       <div className="btn-group my-3" role="group" aria-label="New secrets">
@@ -129,7 +134,10 @@ const SecretList = ({token, masterPass}) => {
       <div className="row">
         {state.secrets.map(secret => {
           return (
-            (secret.type == TYPE_PASS && <ViewPass secret={secret} key={secret.id}/>)
+            <div  className="col-lg-6" key={secret.id}>
+              {secret.type == TYPE_PASS && <ViewPass secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_NOTE && <ViewNote secret={secret} secretAction={secretAction}/>}
+            </div>
           )
         })}
       </div>
