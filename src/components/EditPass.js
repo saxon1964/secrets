@@ -7,8 +7,7 @@ import sjcl from 'sjcl'
 
 const RANDOM_PASSWORD_LENGTH = 12
 
-const EditPass = ({data, submitData}) => {
-  const [id, setId] = React.useState(data.id || 0)
+const EditPass = ({id, data, submitData}) => {
   const [name, setName] = React.useState(data.name || '')
   const [host, setHost] = React.useState(data.host || '')
   const [username, setUsername] = React.useState(data.username || '')
@@ -32,22 +31,21 @@ const EditPass = ({data, submitData}) => {
     }
     else {
       const newData = {
-        id: data.id,
         type: data.type,
-        'name': name,
-        'host': host,
-        'username': username,
-        'password': password,
-        'note': note
+        name: name,
+        host: host,
+        username: username,
+        password: password,
+        note: note
       }
-      submitData(newData)
+      submitData(id, newData)
     }
   }
 
   return (
     <div>
       <hr/>
-      <h5>{data.id == 0? ('New'): ('Edit')} password:</h5>
+      <h5>{id == 0? ('New'): ('Edit')} password:</h5>
       <form onSubmit={checkForm}>
         <div className="row mb-3">
           <div className="col-lg-6 mt-2">
@@ -82,7 +80,7 @@ const EditPass = ({data, submitData}) => {
           </div>
           <div className="col-lg-12 mt-2">
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
-            <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(false)}>Cancel</button>
+            <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(id, false)}>Cancel</button>
           </div>
         </div>
       </form>
