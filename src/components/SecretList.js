@@ -18,6 +18,7 @@ const ACTION_NEW_SECRET = 3
 const ACTION_IDLE = 4
 const ACTION_SAVE_SECRET = 5
 const ACTION_SECRET_SAVED = 6
+const ACTION_EDIT_SECRET = 7
 
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
@@ -45,6 +46,8 @@ const SecretList = ({token, masterPass}) => {
         return {...state, secrets: action.payload, loadingSecrets: false}
       case ACTION_NEW_SECRET:
         return {...state, editSecret: {id: 0, data: {type: action.payload}}}
+      case ACTION_EDIT_SECRET:
+        return {...state, editSecret: action.payload}
       case ACTION_SAVE_SECRET:
         return {...state, editSecret: action.payload, savingSecret: true}
       case ACTION_SECRET_SAVED:
@@ -107,7 +110,6 @@ const SecretList = ({token, masterPass}) => {
   }
 
   const saveSecret = (id, data) => {
-    // data == false means cancel edit
     if(data === false) {
       dispatch({type: ACTION_IDLE})
       return
@@ -116,7 +118,13 @@ const SecretList = ({token, masterPass}) => {
   }
 
   const secretAction = (id) => {
-    alert(id)
+    if(id > 0) {
+      let secret = state.secrets.find(secret => secret.id == id)
+      dispatch({type: ACTION_EDIT_SECRET, payload: {id: id, data: secret}})
+    }
+    else {
+      console.log('TODO: Deleting ' + id)
+    }
   }
 
   return (

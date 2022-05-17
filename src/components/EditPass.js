@@ -8,12 +8,21 @@ import sjcl from 'sjcl'
 const RANDOM_PASSWORD_LENGTH = 12
 
 const EditPass = ({id, data, submitData}) => {
-  const [name, setName] = React.useState(data.name || '')
-  const [host, setHost] = React.useState(data.host || '')
-  const [username, setUsername] = React.useState(data.username || '')
-  const [password, setPassword] = React.useState(data.password || '')
-  const [note, setNote] = React.useState(data.note || '')
+  const [name, setName] = React.useState('')
+  const [host, setHost] = React.useState('')
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
+  const [note, setNote] = React.useState('')
   const [passwordControl, setPasswordControl] = React.useState('password')
+
+  React.useEffect(() => {
+    setName(data.name || '')
+    setHost(data.host || '')
+    setUsername(data.username || '')
+    setPassword(data.password || '')
+    setNote(data.note || '')
+    setPasswordControl('password')
+  }, [id])
 
   const togglePasswordControlType = () => setPasswordControl(passwordControl == 'password'? 'text': 'password')
   const createRandomPassword = () => setPassword(Utils.randomString(RANDOM_PASSWORD_LENGTH))
