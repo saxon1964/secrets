@@ -142,7 +142,7 @@ const SecretList = ({token, masterPass}) => {
       <div className="row">
         {state.secrets.map(secret => {
           return (
-            <div  className="col-lg-6" key={secret.id}>
+            <div  className="col-lg-4" key={secret.id}>
               {secret.type == TYPE_PASS && <ViewPass secret={secret} secretAction={secretAction}/>}
               {secret.type == TYPE_NOTE && <ViewNote secret={secret} secretAction={secretAction}/>}
             </div>
