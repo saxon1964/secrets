@@ -10,6 +10,7 @@ import EditPerson  from './EditPerson.js'
 import ViewPass    from './ViewPass.js'
 import ViewCard    from './ViewCard.js'
 import ViewDoc     from './ViewDoc.js'
+import ViewPerson  from './ViewPerson.js'
 import ViewNote    from './ViewNote.js'
 
 const TYPE_NONE       = ''
@@ -159,10 +160,11 @@ const SecretList = ({token, masterPass}) => {
         {state.secrets.map(secret => {
           return (
             <div  className="col-lg-4" key={secret.id}>
-              {secret.type == TYPE_PASS && <ViewPass secret={secret} secretAction={secretAction}/>}
-              {secret.type == TYPE_CARD && <ViewCard secret={secret} secretAction={secretAction}/>}
-              {secret.type == TYPE_DOC  && <ViewDoc  secret={secret} secretAction={secretAction}/>}
-              {secret.type == TYPE_NOTE && <ViewNote secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_PASS    && <ViewPass   secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_CARD    && <ViewCard   secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_DOC     && <ViewDoc    secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_PERSON  && <ViewPerson secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_NOTE    && <ViewNote   secret={secret} secretAction={secretAction}/>}
             </div>
           )
         })}
