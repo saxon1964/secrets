@@ -100,3 +100,20 @@ export function encrypt(password, plainText) {
 export function decrypt(password, encryptedText) {
   return sjcl.decrypt(password, encryptedText)
 }
+
+const monthNames = {
+  '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun',
+  '07': 'Jul', '08': 'Avg', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'
+}
+
+export function formatIsoDate(date) {
+  if(date && date.length == 10 && date[4] == '-' && date[7] == '-') {
+    const year = date.substring(0, 4)
+    const month = date.substring(5, 7)
+    const day = date.substring(8)
+    return `${day}-${monthNames[month]}-${year}`
+  }
+  else {
+    return ''
+  }
+}

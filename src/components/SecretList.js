@@ -2,19 +2,22 @@ import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
 import axios from 'axios'
-import EditPass from './EditPass.js'
-import EditCard from './EditCard.js'
-import EditNote from './EditNote.js'
-import EditDoc  from './EditDoc.js'
-import ViewPass from './ViewPass.js'
-import ViewCard from './ViewCard.js'
-import ViewNote from './ViewNote.js'
+import EditPass    from './EditPass.js'
+import EditCard    from './EditCard.js'
+import EditNote    from './EditNote.js'
+import EditDoc     from './EditDoc.js'
+import EditPerson  from './EditPerson.js'
+import ViewPass    from './ViewPass.js'
+import ViewCard    from './ViewCard.js'
+import ViewDoc     from './ViewDoc.js'
+import ViewNote    from './ViewNote.js'
 
 const TYPE_NONE       = ''
 const TYPE_PASS       = 'Password'
 const TYPE_CARD       = 'Bank card'
 const TYPE_NOTE       = 'Secret note'
 const TYPE_DOC        = 'Document'
+const TYPE_PERSON     = 'Person'
 
 const ACTION_LOAD_SECRETS = 1
 const ACTION_SECRETS_LOADED = 2
@@ -138,6 +141,7 @@ const SecretList = ({token, masterPass}) => {
         <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>{TYPE_PASS}</button>
         <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>{TYPE_CARD}</button>
         <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>{TYPE_DOC}</button>
+        <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>{TYPE_PERSON}</button>
         <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>{TYPE_NOTE}</button>
       </div>
       {state.editSecret.data.type == TYPE_PASS &&
@@ -146,6 +150,8 @@ const SecretList = ({token, masterPass}) => {
         <EditCard id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       {state.editSecret.data.type == TYPE_DOC &&
         <EditDoc id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
+      {state.editSecret.data.type == TYPE_PERSON &&
+        <EditPerson id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       {state.editSecret.data.type == TYPE_NOTE &&
         <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       <h4 className="mb-3">Your secrets ({Object.keys(state.secrets).length}) {state.loadingSecrets && <Spinner/>}</h4>
@@ -155,6 +161,7 @@ const SecretList = ({token, masterPass}) => {
             <div  className="col-lg-4" key={secret.id}>
               {secret.type == TYPE_PASS && <ViewPass secret={secret} secretAction={secretAction}/>}
               {secret.type == TYPE_CARD && <ViewCard secret={secret} secretAction={secretAction}/>}
+              {secret.type == TYPE_DOC  && <ViewDoc  secret={secret} secretAction={secretAction}/>}
               {secret.type == TYPE_NOTE && <ViewNote secret={secret} secretAction={secretAction}/>}
             </div>
           )
