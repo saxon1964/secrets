@@ -1,9 +1,6 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
-import Spinner from './Spinner.js'
 import Mandatory from './Mandatory.js'
-import axios from 'axios'
-import sjcl from 'sjcl'
 
 const RANDOM_PASSWORD_LENGTH = 12
 

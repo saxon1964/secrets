@@ -3,7 +3,7 @@ import * as Utils from '../misc/utils.js'
 
 const HiddenText = ({text}) => {
   const [textVisible, setTextVisible] = React.useState(false)
-  const textPlaceholder = '••••••••••••'
+  const textPlaceholder = '••••••••••••••••'
 
   const toggleText = () => setTextVisible(!textVisible)
   const copyText = () => {
