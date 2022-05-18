@@ -27,9 +27,12 @@ const ACTION_IDLE = 4
 const ACTION_SAVE_SECRET = 5
 const ACTION_SECRET_SAVED = 6
 const ACTION_EDIT_SECRET = 7
+const ACTION_DELETE_SECRET = 8
+const ACTION_SECRET_DELETED = 9
 
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
+const DELETE_SECRET_URL = 'deleteSecret.php'
 
 const SecretList = ({token, masterPass}) => {
   const initState = {
@@ -41,7 +44,8 @@ const SecretList = ({token, masterPass}) => {
         type: TYPE_NONE
       }
     },
-    savingSecret: false
+    savingSecret: false,
+    deletingSecret: false
   }
 
   const stateManager = (state, action) => {
@@ -58,8 +62,12 @@ const SecretList = ({token, masterPass}) => {
         return {...state, editSecret: action.payload}
       case ACTION_SAVE_SECRET:
         return {...state, editSecret: action.payload, savingSecret: true}
+      case ACTION_DELETE_SECRET:
+        return {...state, editSecret: action.payload, deletingSecret: true}
       case ACTION_SECRET_SAVED:
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, savingSecret: false}
+      case ACTION_SECRET_DELETED:
+        return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, deletingSecret: false}
       default:
         throw new Error('Unknown action type: ' + action.type)
     }
@@ -79,7 +87,6 @@ const SecretList = ({token, masterPass}) => {
           return decrypted
         })
         secrets.sort((s1, s2) => s1.name.localeCompare(s2.name))
-        //console.log(secrets)
         dispatch({type: ACTION_SECRETS_LOADED, payload: secrets})
       }).catch(error => {
         Utils.reportError(`Error while loading secrets: ${error}`)
@@ -113,10 +120,35 @@ const SecretList = ({token, masterPass}) => {
     }
   }, [state.savingSecret])
 
+  // DELETEING SECRET
+  React.useEffect(() => {
+    if(state.deletingSecret) {
+      const id = state.editSecret.id
+      const data = state.editSecret.data
+      const formData = new FormData()
+      formData.append('id', id)
+      axios.post(Utils.getScriptUrl(DELETE_SECRET_URL), formData, {
+        headers: Utils.getAuthorizationHeader(token)
+      }).then(result => {
+        if(result.data.status == 0) {
+          Utils.reportSuccess(`Secret [${data.name}] deleted successfully`)
+          dispatch({type: ACTION_SECRET_DELETED})
+          dispatch({type: ACTION_LOAD_SECRETS})
+        }
+        else {
+          Utils.reportError(`Unknown error: secret not deleted, please try again`)
+        }
+      }).catch(error => {
+        Utils.reportError(`Error while saving secret: ${error}`)
+      })
+    }
+  }, [state.deletingSecret])
+
   const newSecret = (secretType) => {
     dispatch({type: ACTION_NEW_SECRET, payload: secretType})
   }
 
+  // save secret input form
   const saveSecret = (id, data) => {
     if(data === false) {
       dispatch({type: ACTION_IDLE})
@@ -125,13 +157,22 @@ const SecretList = ({token, masterPass}) => {
     dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
   }
 
+  // edit/delete secret callback
   const secretAction = (id) => {
-    if(id > 0) {
-      let secret = state.secrets.find(secret => secret.id == id)
-      dispatch({type: ACTION_EDIT_SECRET, payload: {id: id, data: secret}})
+    const secret = state.secrets.find(secret => secret.id == Math.abs(id))
+    const payload = {id: Math.abs(id), data: secret}
+    if(id >= 0) {
+      // edit secret
+      dispatch({type: ACTION_EDIT_SECRET, payload: payload})
     }
     else {
-      console.log('TODO: Deleting ' + id)
+      // delete secret
+      const question = `Are you sure that you want to delete secret [${secret.name}]?`
+      Utils.confirmAction('Delete', question).then(result => {
+        if(result.isConfirmed) {
+          dispatch({type: ACTION_DELETE_SECRET, payload: payload})
+        }
+      })
     }
   }
 
@@ -155,7 +196,10 @@ const SecretList = ({token, masterPass}) => {
         <EditPerson id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       {state.editSecret.data.type == TYPE_NOTE &&
         <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
-      <h4 className="mb-3">Your secrets ({Object.keys(state.secrets).length}) {state.loadingSecrets && <Spinner/>}</h4>
+      <h4 className="mb-3">
+        Your secrets ({Object.keys(state.secrets).length})
+        {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
+      </h4>
       <div className="row">
         {state.secrets.map(secret => {
           return (

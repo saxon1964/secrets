@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Header from './Header.js'
+import Footer from './Footer.js'
 import Login from './Login.js'
 import Register from './Register.js'
 import Secrets from './Secrets.js'
@@ -43,6 +44,7 @@ const Content = () => {
       {state.view == 'REGISTER' && state.email == '' && <Register dispatcher={dispatch}/>}
       {state.view == 'HOME' && state.email != '' && <Secrets token={state.token}/>}
       <SessionChecker token={state.token} dispatcher={dispatch}/>
+      <Footer/>
     </>
   )
 }
