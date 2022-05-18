@@ -215,7 +215,7 @@ const SecretList = ({token, masterPass}) => {
           </h4>
         </div>
         <div className="col-lg-4">
-          <input className="form-control bg-light" placeholder="Filter secrets by name" type="text"
+          <input className="form-control" placeholder="Filter secrets by name" type="text"
             value={state.filter} onChange={handleFilterChange}/>
         </div>
       </div>
