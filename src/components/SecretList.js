@@ -29,6 +29,7 @@ const ACTION_SECRET_SAVED = 6
 const ACTION_EDIT_SECRET = 7
 const ACTION_DELETE_SECRET = 8
 const ACTION_SECRET_DELETED = 9
+const ACTION_SET_FILTER = 10
 
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
@@ -45,7 +46,8 @@ const SecretList = ({token, masterPass}) => {
       }
     },
     savingSecret: false,
-    deletingSecret: false
+    deletingSecret: false,
+    filter: ''
   }
 
   const stateManager = (state, action) => {
@@ -68,6 +70,8 @@ const SecretList = ({token, masterPass}) => {
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, savingSecret: false}
       case ACTION_SECRET_DELETED:
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, deletingSecret: false}
+      case ACTION_SET_FILTER:
+        return {...state, filter: action.payload}
       default:
         throw new Error('Unknown action type: ' + action.type)
     }
@@ -176,6 +180,13 @@ const SecretList = ({token, masterPass}) => {
     }
   }
 
+  const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})
+
+  const filteredSecrets = () => {
+    const f = state.filter.toLowerCase()
+    return state.secrets.filter(secret => secret.name.toLowerCase().includes(f))
+  }
+
   return (
     <div>
       <div className="btn-group my-3" role="group" aria-label="New secrets">
@@ -196,12 +207,20 @@ const SecretList = ({token, masterPass}) => {
         <EditPerson id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       {state.editSecret.data.type == TYPE_NOTE &&
         <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
-      <h4 className="mb-3">
-        Your secrets ({Object.keys(state.secrets).length})
-        {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
-      </h4>
+      <div className="row mb-3">
+        <div className="col-lg-8">
+          <h4>
+            Your secrets ({Object.keys(state.secrets).length})
+            {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
+          </h4>
+        </div>
+        <div className="col-lg-4">
+          <input className="form-control bg-light" placeholder="Filter secrets by name" type="text"
+            value={state.filter} onChange={handleFilterChange}/>
+        </div>
+      </div>
       <div className="row">
-        {state.secrets.map(secret => {
+        {filteredSecrets().map(secret => {
           return (
             <div  className="col-lg-4" key={secret.id}>
               {secret.type == TYPE_PASS    && <ViewPass   secret={secret} secretAction={secretAction}/>}
