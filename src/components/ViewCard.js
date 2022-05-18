@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import HiddenText from './HiddenText.js'
 
-const ViewNote = ({secret, secretAction}) => {
+const ViewCard = ({secret, secretAction}) => {
   const [expanded, setExpanded] = React.useState(false)
 
   const toggleContainer = () => setExpanded(!expanded)
@@ -10,7 +11,7 @@ const ViewNote = ({secret, secretAction}) => {
   const del = (e) => secretAction(-secret.id) // Delete
 
   return (
-    <div className="alert alert-warning">
+    <div className="alert alert-danger">
       <h5 className="alert-heading mb-0">
         <button className="btn btn-sm btn-primary" onClick={toggleContainer}>
           {expanded? <i className="fas fa-arrow-down"/>: <i className="fas fa-arrow-right"/>}
@@ -21,6 +22,11 @@ const ViewNote = ({secret, secretAction}) => {
         <table className="table mt-3 bg-light" style={{width: 'auto'}}>
           <tbody>
             <tr><td><b>Type:</b></td><td><b>{secret.type}</b></td></tr>
+            <tr><td><b>Card type:</b></td><td>{secret.cardType}</td></tr>
+            <tr><td><b>Card holder:</b></td><td>{secret.cardHolder}</td></tr>
+            <tr><td><b>Card number:</b></td><td><HiddenText text={secret.cardNumber}/></td></tr>
+            <tr><td><b>Expires:</b></td><td>{secret.expires}</td></tr>
+            <tr><td><b>CVV:</b></td><td>{secret.cvv}</td></tr>
             <tr><td><b>Note:</b></td><td><pre style={{whiteSpace: 'pre-wrap'}}>{secret.note}</pre></td></tr>
             <tr>
               <td colSpan="2">
@@ -35,4 +41,4 @@ const ViewNote = ({secret, secretAction}) => {
   )
 }
 
-export default ViewNote
+export default ViewCard
