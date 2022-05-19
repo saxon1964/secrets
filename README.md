@@ -19,9 +19,9 @@
 
   Frontent is created in React. Backend (server side scripts) are written in PHP. Data gets stored in a MariaDB.
 
-# Wanna see something authenticated
+# Wanna see something interesting
 
-  I am an avid movie collector. Please check my collection at [https://www.luka.in.rs](https://www.luka.in.rs). Frontend is 100% pure VUE. 
+  I am an avid movie collector. Please check my movie collection at [https://www.luka.in.rs](https://www.luka.in.rs). Catalog software is 100% mine with frontend developed in VUE. 
 
 # Getting Started with Create React App
 
