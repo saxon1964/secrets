@@ -189,13 +189,13 @@ const SecretList = ({token, masterPass}) => {
 
   return (
     <div>
-      <div className="btn-group my-3" role="group" aria-label="New secrets">
-        <button type="button" className="btn btn-outline-primary">Create secret:</button>
-        <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>{TYPE_PASS}</button>
-        <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>{TYPE_CARD}</button>
-        <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>{TYPE_DOC}</button>
-        <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>{TYPE_PERSON}</button>
-        <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>{TYPE_NOTE}</button>
+      <h4 className="mt-3">Create new secret:</h4>
+      <div className="btn-group mb-3" role="group" aria-label="New secrets">
+        <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
+        <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>Card</button>
+        <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>ID</button>
+        <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>Person</button>
+        <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>Note</button>
       </div>
       {state.editSecret.data.type == TYPE_PASS &&
         <EditPass id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
