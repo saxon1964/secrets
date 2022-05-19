@@ -1,4 +1,8 @@
-# Benefits of [***My Secrets***](https://secrets.luka.in.rs) at
+# What is ***My Secrets***
+
+  It's an application to store unlimited number of your secrets (passwords, credit cards, IDs, personal data, secret notes in one place. It's fast and simple and works well even on small mobile phones. You can try it and use it, forever and for free, at [https://secrets.luka.in.rs](https://secrets.luka.in.rs)
+
+# Benefits of [***My Secrets***](https://secrets.luka.in.rs)
 
   - Your secrets are fully encrypted. Not a single byte of it is left unencrypted in the main database.
   - Application supports password, credit cards, secret notes, ID documents and personal information.
@@ -10,6 +14,14 @@
   - According to Stanford: SJCL is secure. It uses the industry-standard AES algorithm at 128, 192 or 256 bits; the SHA256 hash function; the HMAC authentication code; the PBKDF2 password strengthener; and the CCM and OCB authenticated-encryption modes. Just as importantly, the default parameters are sensible: SJCL strengthens your passwords by a factor of 1000 and salts them to protect against rainbow tables, and it authenticates every message it sends to prevent it from being modified. We believe that SJCL provides the best security which is practically available in Javascript.
   - The site uses https:// as a protocol of choice.
   - This application is and will always be free.
+
+# Technology
+
+  Frontent is created in React. Backend (server side scripts) are written in PHP. Data gets stored in a MariaDB.
+
+# Wanna see something authenticated
+
+  I am an avid movie collector. Please check my collection at [https://www.luka.in.rs](https://www.luka.in.rs). Frontend is 100% pure VUE. 
 
 # Getting Started with Create React App
 
