@@ -21,7 +21,7 @@
 
 # Wanna see something interesting
 
-  I am an avid movie collector. Please check my movie collection at [https://www.luka.in.rs](https://www.luka.in.rs). Catalog software is 100% mine with frontend developed in VUE. 
+  I am an avid movie collector. Please check my movie collection called **Cinema Circle 2** at [https://www.luka.in.rs](https://www.luka.in.rs). Catalog software is 100% mine with frontend developed in VUE. 
 
 # Getting Started with Create React App
 
