@@ -11,6 +11,8 @@ const EditCard = ({id, data, submitData}) => {
   const [cardNumber, setCardNumber] = React.useState('')
   const [expires, setExpires] = React.useState('')
   const [cvv, setCvv] = React.useState('')
+  const [pin, setPin] = React.useState('')
+  const [account, setAccount] = React.useState('')
   const [note, setNote] = React.useState('')
 
   React.useEffect(() => {
@@ -20,6 +22,8 @@ const EditCard = ({id, data, submitData}) => {
     setCardNumber(data.cardNumber || '')
     setExpires(data.expires || '')
     setCvv(data.cvv || '')
+    setPin(data.pin || '')
+    setAccount(data.account || '')
     setNote(data.note || '')
   }, [id])
 
@@ -34,15 +38,6 @@ const EditCard = ({id, data, submitData}) => {
     else if(cardHolder.length == 0) {
       Utils.reportError('Card holder must be specified')
     }
-    else if(cardNumber.length < 16) {
-      Utils.reportError('Invalid card number')
-    }
-    else if(expires.length != 5) {
-      Utils.reportError('Invalid expiry data')
-    }
-    else if(cvv.length < 3) {
-      Utils.reportError('Invalid CVV code')
-    }
     else {
       const newData = {
         type: data.type,
@@ -52,6 +47,8 @@ const EditCard = ({id, data, submitData}) => {
         cardNumber: cardNumber,
         expires: expires,
         cvv: cvv,
+        pin: pin,
+        account: account,
         note: note
       }
       submitData(id, newData)
@@ -77,16 +74,24 @@ const EditCard = ({id, data, submitData}) => {
             <input type="text" value={cardHolder} id="cardHolder" className="form-control" onChange={e => setCardHolder(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="cardNumber">Card number:<Mandatory/></label>
+            <label htmlFor="cardNumber">Card number:</label>
             <input type="text" value={cardNumber} id="cardNumber" className="form-control" onChange={e => setCardNumber(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="expires">Expires (mm/yy):<Mandatory/></label>
+            <label htmlFor="expires">Expires (mm/yy):</label>
             <input type="text" value={expires} id="expires" className="form-control" onChange={e => setExpires(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="cvv">CVV:<Mandatory/></label>
+            <label htmlFor="cvv">CVV:</label>
             <input type="text" value={cvv} id="cvv" className="form-control" onChange={e => setCvv(e.target.value)}/>
+          </div>
+          <div className="col-lg-6 mt-2">
+            <label htmlFor="pin">Pin:</label>
+            <input type="text" value={pin} id="pin" className="form-control" onChange={e => setPin(e.target.value)}/>
+          </div>
+          <div className="col-lg-6 mt-2">
+            <label htmlFor="account">Bank account:</label>
+            <input type="text" value={account} id="account" className="form-control" onChange={e => setAccount(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="note">Note:</label>

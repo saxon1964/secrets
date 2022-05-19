@@ -1,3 +1,16 @@
+# Benefits of [***My Secrets***](https://secrets.luka.in.rs) at
+
+  - Your secrets are fully encrypted. Not a single byte of it is left unencrypted in the main database.
+  - Application supports password, credit cards, secret notes, ID documents and personal information.
+  - Unencrypted data is never transmitted over the wire.
+  - Your secrets are encrypted using your master password on your own (client) machine.
+  - Your master password is not stored anywhere. If it is forgotten, all your secrets are also forgotten.
+  - However, we can check if your master password is valid by trying to decrypt some random text that was created during master password creation phase
+  - Encryption of all secrets is performed with [Standford Javascrpit Crypto Library](https://github.com/bitwiseshiftleft/sjcl/)
+  - According to Stanford: SJCL is secure. It uses the industry-standard AES algorithm at 128, 192 or 256 bits; the SHA256 hash function; the HMAC authentication code; the PBKDF2 password strengthener; and the CCM and OCB authenticated-encryption modes. Just as importantly, the default parameters are sensible: SJCL strengthens your passwords by a factor of 1000 and salts them to protect against rainbow tables, and it authenticates every message it sends to prevent it from being modified. We believe that SJCL provides the best security which is practically available in Javascript.
+  - The site uses https:// as a protocol of choice.
+  - This application is and will always be free.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

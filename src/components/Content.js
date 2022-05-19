@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Header from './Header.js'
+import About from './About.js'
 import Footer from './Footer.js'
 import Login from './Login.js'
 import Register from './Register.js'
@@ -25,6 +26,8 @@ const Content = () => {
         return { view: 'HOME', email: '', token: '' }
       case 'ACTION_AUTHENTICATED':
         return { view: 'HOME', email: action.payload.email, token: action.payload.token}
+      case 'ACTION_ABOUT':
+        return { ...state, view: 'ABOUT' }
       default:
         throw new Error('Unknown action type')
     }
@@ -43,6 +46,7 @@ const Content = () => {
       {state.view == 'HOME' && state.email == '' && <Login dispatcher={dispatch}/>}
       {state.view == 'REGISTER' && state.email == '' && <Register dispatcher={dispatch}/>}
       {state.view == 'HOME' && state.email != '' && <Secrets token={state.token}/>}
+      {state.view == 'ABOUT' && <About/>}
       <SessionChecker token={state.token} dispatcher={dispatch}/>
       <Footer/>
     </>

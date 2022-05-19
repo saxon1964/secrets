@@ -7,6 +7,7 @@ const LOGOUT_URL = 'logout.php'
 
 const Header = ({email, token, dispatcher}) => {
   const homeAction = () => dispatcher({type: 'ACTION_HOME'})
+  const aboutAction = () => dispatcher({type: 'ACTION_ABOUT'})
 
   const username = (email) => {
     const pos = email.indexOf('@')
@@ -50,6 +51,8 @@ const Header = ({email, token, dispatcher}) => {
                   Hello <b>{username(email)}</b>
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a className="dropdown-item" onClick={homeAction}>HOME</a></li>
+                  <li><a className="dropdown-item" onClick={aboutAction}>About this app</a></li>
                   <li><a className="dropdown-item" onClick={logoutAction}>Logout</a></li>
                 </ul>
               </div>

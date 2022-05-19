@@ -27,6 +27,8 @@ const ViewCard = ({secret, secretAction}) => {
             <tr><td><b>Card number:</b></td><td><HiddenText text={secret.cardNumber}/></td></tr>
             <tr><td><b>Expires:</b></td><td>{secret.expires}</td></tr>
             <tr><td><b>CVV:</b></td><td>{secret.cvv}</td></tr>
+            <tr><td><b>Pin:</b></td><td>{secret.pin}</td></tr> 
+            <tr><td><b>Account:</b></td><td>{secret.account}</td></tr>
             <tr><td><b>Note:</b></td><td><pre style={{whiteSpace: 'pre-wrap'}}>{secret.note}</pre></td></tr>
             <tr>
               <td colSpan="2">

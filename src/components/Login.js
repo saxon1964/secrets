@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import Spinner from './Spinner.js'
+import About from './About.js'
 import axios from 'axios'
 
 const LOGIN_URL = 'login.php'
@@ -80,6 +81,9 @@ const Login = ({dispatcher}) => {
           </div>
         </div>
       </form>
+      <div>
+        <About/>
+      </div>
     </div>
   )
 }
