@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import EditHidden from './EditHidden.js'
 import Mandatory from './Mandatory.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
@@ -79,8 +80,7 @@ const EditDoc = ({id, data, submitData}) => {
             <input type="date" value={birth} id="birth" className="form-control" onChange={e => setBirth(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="number">Document number:<Mandatory/></label>
-            <input type="text" value={number} id="number" className="form-control" onChange={e => setNumber(e.target.value)}/>
+            <EditHidden id="number" label="Document number" value={number} reportValue={setNumber} randomize={undefined}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="validFrom">Valid from:</label>

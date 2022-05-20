@@ -159,7 +159,9 @@ const SecretList = ({token, masterPass}) => {
       return
     }
     // check if we have a secret with that nam already
-    if(state.secrets.find(secret => secret.name == data.name)) {
+    //console.log(state.secrets)
+    //console.log(id, data)
+    if(state.secrets.find(secret => secret.name == data.name && secret.id != id)) {
       Utils.reportError(`Secret with name [${data.name}] already exists. Please choose different name`)
       return
     }

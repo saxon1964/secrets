@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import EditHidden from './EditHidden.js'
 import Mandatory from './Mandatory.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
@@ -74,8 +75,7 @@ const EditCard = ({id, data, submitData}) => {
             <input type="text" value={cardHolder} id="cardHolder" className="form-control" onChange={e => setCardHolder(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="cardNumber">Card number:</label>
-            <input type="text" value={cardNumber} id="cardNumber" className="form-control" onChange={e => setCardNumber(e.target.value)}/>
+            <EditHidden id="cardNumber" label="Card number" value={cardNumber} reportValue={setCardNumber} randomize={undefined}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="expires">Expires (mm/yy):</label>
