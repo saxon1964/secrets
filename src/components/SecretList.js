@@ -158,6 +158,11 @@ const SecretList = ({token, masterPass}) => {
       dispatch({type: ACTION_IDLE})
       return
     }
+    // check if we have a secret with that nam already
+    if(state.secrets.find(secret => secret.name == data.name)) {
+      Utils.reportError(`Secret with name [${data.name}] already exists. Please choose different name`)
+      return
+    }
     dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
   }
 
