@@ -22,7 +22,7 @@ const EditPass = ({id, data, submitData}) => {
   }, [id])
 
   const togglePasswordControlType = () => setPasswordControl(passwordControl == 'password'? 'text': 'password')
-  const createRandomPassword = () => setPassword(Utils.randomString(RANDOM_PASSWORD_LENGTH))
+  const createRandomPassword = () => setPassword(Utils.randomPassword(RANDOM_PASSWORD_LENGTH))
 
   const checkForm = (e) => {
     e.preventDefault()
