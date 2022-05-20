@@ -224,7 +224,7 @@ const SecretList = ({token, masterPass}) => {
               value={state.filter} onChange={handleFilterChange}/>
             <div className="input-group-append">
               <button className="btn btn-danger" type="button" title="Clear filter" onClick={clearFilter}>
-                <i class="fa-solid fa-xmark"></i>
+                <i className="fa-solid fa-xmark"/>
               </button>
             </div>
           </div>

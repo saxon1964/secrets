@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import EditHidden from './EditHidden.js'
+import NameField from './NameField.js'
 import Mandatory from './Mandatory.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
@@ -60,8 +61,7 @@ const EditDoc = ({id, data, submitData}) => {
       <form onSubmit={checkForm}>
         <div className="row mb-3">
           <div className="col-lg-6 mt-2">
-            <label htmlFor="name">Name:<Mandatory/></label>
-            <input type="text" value={name} id="name" className="form-control" onChange={e => setName(e.target.value)}/>
+            <NameField id={id} name={name} setName={setName}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="fullName">Full name:</label>

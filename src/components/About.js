@@ -1,6 +1,6 @@
 const About = () => {
   return (
-    <div class="container secretContainer">
+    <div className="container secretContainer">
       <h4 className="mt-2">Benefits of <span className="text-warning bg-primary p-1 rounded"
         style={{fontFamily: 'Georgia', fontWeight: 'bold', fontStyle: 'italic'}}>My Secrets</span></h4>
       <ul>

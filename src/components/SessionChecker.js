@@ -9,7 +9,7 @@ const SessionChecker = ({token, dispatcher}) => {
 
   React.useEffect(() => {
     if(token != '') {
-      console.log(`Checking session for token: ${token}`)
+      //console.log(`Checking session for token: ${token}`)
       axios.get(Utils.getScriptUrl(VERIFY_SESSION_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
