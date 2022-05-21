@@ -214,7 +214,7 @@ const SecretList = ({token, masterPass}) => {
       <div className="row mb-3">
         <div className="col-lg-8">
           <h4>
-            Your secrets ({Object.keys(state.secrets).length})
+            Your secrets ({Object.keys(state.secrets).length})&nbsp;
             {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
           </h4>
         </div>
