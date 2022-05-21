@@ -1,5 +1,7 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import EditHidden from './EditHidden.js'
+import NameField from './NameField.js'
 import Mandatory from './Mandatory.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
@@ -10,7 +12,6 @@ const EditPass = ({id, data, submitData}) => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [note, setNote] = React.useState('')
-  const [passwordControl, setPasswordControl] = React.useState('password')
 
   React.useEffect(() => {
     setName(data.name || '')
@@ -18,11 +19,9 @@ const EditPass = ({id, data, submitData}) => {
     setUsername(data.username || '')
     setPassword(data.password || '')
     setNote(data.note || '')
-    setPasswordControl('password')
   }, [id])
 
-  const togglePasswordControlType = () => setPasswordControl(passwordControl == 'password'? 'text': 'password')
-  const createRandomPassword = () => setPassword(Utils.randomString(RANDOM_PASSWORD_LENGTH))
+  const createRandomPassword = () => Utils.randomPassword(RANDOM_PASSWORD_LENGTH)
 
   const checkForm = (e) => {
     e.preventDefault()
@@ -55,8 +54,7 @@ const EditPass = ({id, data, submitData}) => {
       <form onSubmit={checkForm}>
         <div className="row mb-3">
           <div className="col-lg-6 mt-2">
-            <label htmlFor="name">Name:<Mandatory/></label>
-            <input type="text" value={name} id="name" className="form-control" onChange={e => setName(e.target.value)}/>
+            <NameField id={id} name={name} setName={setName}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="host">Host:</label>
@@ -67,18 +65,7 @@ const EditPass = ({id, data, submitData}) => {
             <input type="text" value={username} id="username" className="form-control" onChange={e => setUsername(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="password">Password:<Mandatory/></label>
-            <div className="input-group">
-              <input type={passwordControl} value={password} id="password" className="form-control" onChange={e => setPassword(e.target.value)}/>
-              <div className="input-group-append">
-                <button className="btn btn-outline-secondary" type="button" title="Toggle visibility" onClick={togglePasswordControlType}>
-                  {passwordControl == 'password'? <i className="fa-solid fa-eye"/>: <i className="fa-solid fa-eye-slash"/>}
-                </button>
-                <button className="btn btn-outline-secondary" type="button" title="Create random password" onClick={createRandomPassword}>
-                  <i className="fa-solid fa-pencil"/>
-                </button>
-              </div>
-            </div>
+            <EditHidden id="password" label="Password" value={password} reportValue={setPassword} randomize={createRandomPassword}/>
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="note">Note:</label>

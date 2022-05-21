@@ -158,6 +158,10 @@ const SecretList = ({token, masterPass}) => {
       dispatch({type: ACTION_IDLE})
       return
     }
+    if(state.secrets.find(secret => secret.name == data.name && secret.id != id)) {
+      Utils.reportError(`Secret with name [${data.name}] already exists. Please choose different name`)
+      return
+    }
     dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
   }
 
@@ -181,7 +185,7 @@ const SecretList = ({token, masterPass}) => {
   }
 
   const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})
-
+  const clearFilter = (e) => dispatch({type: ACTION_SET_FILTER, payload: ''})
   const filteredSecrets = () => {
     const f = state.filter.toLowerCase()
     return state.secrets.filter(secret => secret.name.toLowerCase().includes(f))
@@ -215,8 +219,15 @@ const SecretList = ({token, masterPass}) => {
           </h4>
         </div>
         <div className="col-lg-4">
-          <input className="form-control" placeholder="Filter secrets by name" type="text"
-            value={state.filter} onChange={handleFilterChange}/>
+          <div className="input-group">
+            <input className="form-control" placeholder="Filter secrets by name" type="text"
+              value={state.filter} onChange={handleFilterChange}/>
+            <div className="input-group-append">
+              <button className="btn btn-danger" type="button" title="Clear filter" onClick={clearFilter}>
+                <i className="fa-solid fa-xmark"/>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="row">

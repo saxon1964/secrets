@@ -83,14 +83,39 @@ export function takeInput(title, question, isPassword) {
   })
 }
 
-export function randomString(length) {
+function shuffleCharacters(str) {
+  return [...str].sort(()=>Math.random()-.5).join('')
+}
+
+function randomCharacters(length, characters) {
   var result = '';
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%&*_-+=.,/:|';
   const charactersLength = characters.length;
-  for (var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength))
    }
    return result;
+}
+
+export function randomString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%&*_-+=.,/:|'
+  return randomCharacters(length, characters)
+}
+
+export function randomPassword(length) {
+  // we want one character from each group
+  var result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%&*_-+=.,/:|'
+  const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz'
+  const numberChars = '0123456789'
+  const specialChars = '~!@#$%&*_-+=.,/:|'
+  result += randomCharacters(1, uppercaseChars)
+  result += randomCharacters(1, lowercaseChars)
+  result += randomCharacters(1, numberChars)
+  result += randomCharacters(1, specialChars)
+  result += randomCharacters(length - 4, characters)
+  // shuffle characters
+  return shuffleCharacters(result)
 }
 
 export function encrypt(password, plainText) {
