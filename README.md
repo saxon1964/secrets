@@ -1,5 +1,7 @@
 # What is ***My Secrets***
 
+  Free password & secrets manager.
+
   It's an application to store unlimited number of your secrets (passwords, credit cards, IDs, personal data, secret notes in one place. It's fast and simple and works well even on small mobile phones. You can try it and use it, forever and for free, at [https://secrets.luka.in.rs](https://secrets.luka.in.rs)
 
 # Benefits of [***My Secrets***](https://secrets.luka.in.rs)
