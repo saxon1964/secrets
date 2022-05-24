@@ -148,11 +148,12 @@ const SecretList = ({token, masterPass}) => {
     }
   }, [state.deletingSecret])
 
+  // NEW SECRET
   const newSecret = (secretType) => {
     dispatch({type: ACTION_NEW_SECRET, payload: secretType})
   }
 
-  // save secret input form
+  // SAVE SECRET
   const saveSecret = (id, data) => {
     if(data === false) {
       dispatch({type: ACTION_IDLE})
@@ -165,7 +166,7 @@ const SecretList = ({token, masterPass}) => {
     dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
   }
 
-  // edit/delete secret callback
+  // EDIT/DELETE SECRET
   const secretAction = (id) => {
     const secret = state.secrets.find(secret => secret.id == Math.abs(id))
     const payload = {id: Math.abs(id), data: secret}
@@ -191,15 +192,24 @@ const SecretList = ({token, masterPass}) => {
     return state.secrets.filter(secret => secret.name.toLowerCase().includes(f))
   }
 
+  const buttonGroup = (
+    <>
+      <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
+      <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>Card</button>
+      <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>ID</button>
+      <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>Person</button>
+      <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>Note</button>
+    </>
+  )
+
   return (
     <div>
       <h4 className="mt-3">Create new secret:</h4>
-      <div className="btn-group mb-3" role="group" aria-label="New secrets">
-        <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
-        <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>Card</button>
-        <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>ID</button>
-        <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>Person</button>
-        <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>Note</button>
+      <div className="btn-group mb-3 d-none d-md-block" role="group" aria-label="New secrets">
+        {buttonGroup}
+      </div>
+      <div className="btn-group-vertical mb-3 d-xs-inline-flex d-md-none" role="group" aria-label="New secrets">
+        {buttonGroup}
       </div>
       {state.editSecret.data.type == TYPE_PASS &&
         <EditPass id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
