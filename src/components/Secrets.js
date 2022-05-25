@@ -4,25 +4,28 @@ import Spinner from './Spinner.js'
 import MasterPassSelector from './MasterPassSelector.js'
 import MasterPassChecker from './MasterPassChecker.js'
 import SecretList from './SecretList.js'
+import useMasterPass from './useMasterPass.js'
 import axios from 'axios'
 
 const TARGET_URL = 'getTarget.php'
 
 const Secrets = ({token}) => {
   const [target, setTarget] = React.useState('')
-  const [masterPass, setMasterPass] = React.useState('')
+  const [masterPass, setMasterPass] = useMasterPass('')
 
   React.useEffect(() => {
-    axios.get(Utils.getScriptUrl(TARGET_URL), {
-      headers: Utils.getAuthorizationHeader(token)
-    }).then(result => {
-      //console.log(result.data)
-      if(result.data.target != target) {
-        setTarget(result.data.target)
-      }
-    }).catch(error => {
-      Utils.reportError(`Error while checking if master password is defined: ${error}`)
-    })
+    if(masterPass == '') {
+      axios.get(Utils.getScriptUrl(TARGET_URL), {
+        headers: Utils.getAuthorizationHeader(token)
+      }).then(result => {
+        //console.log(result.data)
+        if(result.data.target != target) {
+          setTarget(result.data.target)
+        }
+      }).catch(error => {
+        Utils.reportError(`Error while checking if master password is defined: ${error}`)
+      })
+    }
   }, [token])
 
   return (

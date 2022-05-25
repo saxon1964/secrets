@@ -1,11 +1,13 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
+import useMasterPass from './useMasterPass.js'
 import axios from 'axios'
 import styles from './css/Header.module.css'
 
 const LOGOUT_URL = 'logout.php'
 
 const Header = ({email, token, dispatcher}) => {
+  const [masterPass, setMasterPass] = useMasterPass('')
   const homeAction = () => dispatcher({type: 'ACTION_HOME'})
   const aboutAction = () => dispatcher({type: 'ACTION_ABOUT'})
 
@@ -20,6 +22,7 @@ const Header = ({email, token, dispatcher}) => {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
         if(result.data.status == 0) {
+          setMasterPass('')
           Utils.reportSuccess(`Logout successful`)
           console.log(`Logout successful`)
           dispatcher({type: 'ACTION_LOGOUT'})
