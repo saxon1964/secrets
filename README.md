@@ -19,7 +19,7 @@
 
 # Technology
 
-  Frontent is created in React. Backend (server side scripts) are written in PHP. Data gets stored in a MariaDB.
+  Frontent is created in React. Backend (server side scripts) are written in PHP. Data gets stored in a MariaDB (fully encrypted with customer's master key that is not stored anywhere).
 
 # Wanna see something interesting
 
