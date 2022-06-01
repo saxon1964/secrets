@@ -28,12 +28,14 @@ const Secrets = ({token}) => {
     }
   }, [token])
 
+  const lock = () => setMasterPass('')
+
   return (
     <div className="container secretContainer">
       <h2>Secrets</h2>
       {masterPass == '' && target == '' && <MasterPassSelector token={token} setMasterPass={setMasterPass}/>}
       {masterPass == '' && target != '' && <MasterPassChecker target={target} setMasterPass={setMasterPass}/>}
-      {masterPass != '' && <SecretList token={token} masterPass={masterPass}/>}
+      {masterPass != '' && <SecretList token={token} masterPass={masterPass} lock={lock}/>}
     </div>
   )
 }

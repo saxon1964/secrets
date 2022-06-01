@@ -35,7 +35,7 @@ const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
 const DELETE_SECRET_URL = 'deleteSecret.php'
 
-const SecretList = ({token, masterPass}) => {
+const SecretList = ({token, masterPass, lock}) => {
   const initState = {
     secrets: [],
     loadingSecrets: true,
@@ -222,11 +222,14 @@ const SecretList = ({token, masterPass}) => {
       {state.editSecret.data.type == TYPE_NOTE &&
         <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       <div className="row mb-3">
-        <div className="col-lg-8">
-          <h4>
-            Your secrets ({Object.keys(state.secrets).length})&nbsp;
+        <div className="col-lg-4">
+          <h5>
+            Secrets found: {Object.keys(state.secrets).length}&nbsp;
             {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
-          </h4>
+          </h5>
+        </div>
+        <div className="col-lg-4">
+          <button type="button" className="btn btn-danger" onClick={lock}>Lock screen</button>
         </div>
         <div className="col-lg-4">
           <div className="input-group">
