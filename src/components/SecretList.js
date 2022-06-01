@@ -34,8 +34,34 @@ const ACTION_SET_FILTER = 10
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
 const DELETE_SECRET_URL = 'deleteSecret.php'
+const TIMEOUT_SECONDS   = 120 // seconds
+const CHECK_INTERVAL    = 5 // seconds
 
 const SecretList = ({token, masterPass, lock}) => {
+  const [lastActionTimestamp, setLastActionTimestamp] = React.useState(Utils.getTimestamp())
+  const lastActionRef = React.useRef()
+  lastActionRef.current = lastActionTimestamp
+
+  // registe timestamp of the last action
+  const registerAction = () => {
+    const ts = Utils.getTimestamp()
+    setLastActionTimestamp(ts)
+    //console.log(`Last action timestamp set to ${ts}`)
+  }
+
+
+  // JUST DISPLAY lastActionTimestamp
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      const elapsed = Utils.getTimestamp() - lastActionRef.current
+      //console.log(`Elapsed: ${elapsed} secs`)
+      if(elapsed >= TIMEOUT_SECONDS) {
+        lock()
+      }
+    }, CHECK_INTERVAL * 1000)
+    return () => clearInterval(timer)
+  }, [])
+
   const initState = {
     secrets: [],
     loadingSecrets: true,
@@ -51,6 +77,7 @@ const SecretList = ({token, masterPass, lock}) => {
   }
 
   const stateManager = (state, action) => {
+    registerAction()
     switch(action.type) {
       case ACTION_IDLE:
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}}
@@ -168,8 +195,9 @@ const SecretList = ({token, masterPass, lock}) => {
 
   // EDIT/DELETE SECRET
   const secretAction = (id) => {
-    registerAction()
     if(id == 0) {
+      // secret toggle
+      dispatch({type: ACTION_IDLE})
       return
     }
     const secret = state.secrets.find(secret => secret.id == Math.abs(id))
@@ -187,10 +215,6 @@ const SecretList = ({token, masterPass, lock}) => {
         }
       })
     }
-  }
-
-  const registerAction = () => {
-    console.log("TODO: Action detected")
   }
 
   const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})

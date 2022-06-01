@@ -141,3 +141,7 @@ export function formatIsoDate(date) {
     return ''
   }
 }
+
+export function getTimestamp() {
+  return parseInt((new Date().getTime() + 500.0) / 1000.0)
+}

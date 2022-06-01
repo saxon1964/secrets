@@ -28,7 +28,10 @@ const Secrets = ({token}) => {
     }
   }, [token])
 
-  const lock = () => setMasterPass('')
+  const lock = () => {
+    setMasterPass('')
+    //console.log(target)
+  }
 
   return (
     <div className="container secretContainer">
