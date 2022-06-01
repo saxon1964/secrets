@@ -10,6 +10,7 @@ import axios from 'axios'
 const TARGET_URL = 'getTarget.php'
 
 const Secrets = ({token}) => {
+  const [ready, setReady] = React.useState(false)
   const [target, setTarget] = React.useState('')
   const [masterPass, setMasterPass] = useMasterPass('')
 
@@ -22,6 +23,7 @@ const Secrets = ({token}) => {
         if(result.data.target != target) {
           setTarget(result.data.target)
         }
+        setReady(true)
       }).catch(error => {
         Utils.reportError(`Error while checking if master password is defined: ${error}`)
       })
@@ -36,9 +38,10 @@ const Secrets = ({token}) => {
   return (
     <div className="container secretContainer">
       <h2>Secrets</h2>
-      {masterPass == '' && target == '' && <MasterPassSelector token={token} setMasterPass={setMasterPass}/>}
-      {masterPass == '' && target != '' && <MasterPassChecker target={target} setMasterPass={setMasterPass}/>}
-      {masterPass != '' && <SecretList token={token} masterPass={masterPass} lock={lock}/>}
+      {!ready && <p>Initialization in progress...</p>}
+      {ready && masterPass == '' && target == '' && <MasterPassSelector token={token} setMasterPass={setMasterPass}/>}
+      {ready && masterPass == '' && target != '' && <MasterPassChecker target={target} setMasterPass={setMasterPass}/>}
+      {ready && masterPass != '' && <SecretList token={token} masterPass={masterPass} lock={lock}/>}
     </div>
   )
 }
