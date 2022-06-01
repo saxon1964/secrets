@@ -1,19 +1,15 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import HiddenText from './HiddenText.js'
+import useViewHeader from './hooks/useViewHeader.js'
 
 const ViewCard = ({secret, secretAction}) => {
-  const [expanded, setExpanded] = React.useState(false)
-
-  const toggleContainer = () => setExpanded(!expanded)
-
-  const edit = (e) => secretAction(secret.id) // Edit
-  const del = (e) => secretAction(-secret.id) // Delete
+  const [expanded, toggle, edit, del] = useViewHeader(secret, secretAction)
 
   return (
     <div className="alert alert-danger">
       <h5 className="alert-heading mb-0">
-        <button className="btn btn-sm btn-primary" onClick={toggleContainer}>
+        <button className="btn btn-sm btn-primary" onClick={toggle}>
           {expanded? <i className="fas fa-arrow-down"/>: <i className="fas fa-arrow-right"/>}
         </button>&nbsp;&nbsp;
         {secret.name}

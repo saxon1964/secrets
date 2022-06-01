@@ -168,6 +168,10 @@ const SecretList = ({token, masterPass, lock}) => {
 
   // EDIT/DELETE SECRET
   const secretAction = (id) => {
+    registerAction()
+    if(id == 0) {
+      return
+    }
     const secret = state.secrets.find(secret => secret.id == Math.abs(id))
     const payload = {id: Math.abs(id), data: secret}
     if(id >= 0) {
@@ -183,6 +187,10 @@ const SecretList = ({token, masterPass, lock}) => {
         }
       })
     }
+  }
+
+  const registerAction = () => {
+    console.log("TODO: Action detected")
   }
 
   const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})
