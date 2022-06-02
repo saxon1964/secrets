@@ -15,7 +15,7 @@ const Secrets = ({token}) => {
   const [masterPass, setMasterPass] = useMasterPass('')
 
   React.useEffect(() => {
-    if(masterPass == '') {
+    if(masterPass == '' || ready == false) {
       axios.get(Utils.getScriptUrl(TARGET_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
@@ -32,7 +32,6 @@ const Secrets = ({token}) => {
 
   const lock = () => {
     setMasterPass('')
-    //console.log(target)
   }
 
   return (
