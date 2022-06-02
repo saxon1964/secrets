@@ -254,16 +254,16 @@ const SecretList = ({token, masterPass, lock}) => {
       {state.editSecret.data.type == TYPE_NOTE &&
         <EditNote id={state.editSecret.id} data={state.editSecret.data} submitData={saveSecret}/>}
       <div className="row mb-3">
-        <div className="col-lg-4">
+        <div className="col-lg-4 mt-2">
           <h5>
             Secrets found: {Object.keys(state.secrets).length}&nbsp;
             {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
           </h5>
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 mt-2">
           <button type="button" className="btn btn-danger" onClick={lock}>Lock screen</button>
         </div>
-        <div className="col-lg-4">
+        <div className="col-lg-4 mt-2">
           <div className="input-group">
             <input className="form-control" placeholder="Filter secrets by name" type="text"
               value={state.filter} onChange={handleFilterChange}/>

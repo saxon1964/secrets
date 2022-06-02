@@ -57,11 +57,18 @@ const MasterPassSelector = ({token, setMasterPass}) => {
   return (
     <div>
       <h4>Create your master password</h4>
-      <p>It seems that you have not defined your master password yet. You have to do it now.</p>
-      <p><b>The master password will never be transmitted over the internet and it won't be stored anywhere.</b></p>
       <p>
-        If you lose it or foget it, it's gone forever, kaputt. In that case, all your secrets
-        will be lost. So choose your master password carefully, write it down, and <b>store it in some
+        It seems that you have not defined your master password yet. You have to do it now.
+      </p>
+      <p>
+        <b>The master password will never be transmitted over the internet and it won't be stored anywhere.</b>
+        When you pick your master password, we are going to encrypt some random "lorem ipsum" text with it and
+        the encrypted text will be stored in the database. That text will later be used to check the validity
+        of your master password.
+      </p>
+      <p>
+        If you lose your master password or foget it, it's gone forever, kaputt. In that case, all your secrets
+        will be inevitably lost. So choose your master password carefully, write it down, and <b>store it in some
         well protected, secret place</b>.
       </p>
       <form onSubmit={checkForm}>

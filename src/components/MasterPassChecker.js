@@ -49,6 +49,17 @@ const MasterPassChecker = ({target, setMasterPass}) => {
           </div>
         </div>
       </form>
+      <div className="row mt-3">
+        <div className="col-lg-6">
+          <p>Your master password is not storred anywhere. It's never transmitted
+          over the internet, either in plain or encrypted form.</p>
+
+          <p>However, we are still able to check its validity:
+          when you picked your master password we encrypted some random "lorem ipsum" text with it and the encrypted
+          text was saved in the database. By entering your master password your are trying to decrypt that text
+          on your local machine. If it fails, your master password is wrong.</p>
+        </div>
+      </div>
     </div>
   )
 }
