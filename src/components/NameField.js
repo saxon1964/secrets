@@ -18,7 +18,7 @@ const NameField = ({id, name, setName}) => {
 
   return (
     <>
-      <label htmlFor="name" ref={labelRef}>Name:<Mandatory/></label>
+      <label htmlFor="name" ref={labelRef}>Name of the secret:<Mandatory/></label>
       <input type="text" ref={nameRef} value={name} id="name" className="form-control" onChange={handleNameChange}/>
     </>
   )
