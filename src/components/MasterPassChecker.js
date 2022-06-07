@@ -37,7 +37,7 @@ const MasterPassChecker = ({target, setMasterPass}) => {
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="master">Master password:</label>
-            <input className="form-control" type="password" id="master"
+            <input className="form-control" autocomplete="off" type="password" id="master"
               value={master} onChange={handleMasterChange}/>
           </div>
         </div>
