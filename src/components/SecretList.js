@@ -34,8 +34,8 @@ const ACTION_SET_FILTER = 10
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
 const DELETE_SECRET_URL = 'deleteSecret.php'
-const TIMEOUT_SECONDS   = 120 // seconds
-const CHECK_INTERVAL    = 5 // seconds
+const TIMEOUT_SECONDS   = 600 // seconds
+const CHECK_INTERVAL    = 10 // seconds
 
 const SecretList = ({token, masterPass, lock}) => {
   const [lastActionTimestamp, setLastActionTimestamp] = React.useState(Utils.getTimestamp())
@@ -54,7 +54,7 @@ const SecretList = ({token, masterPass, lock}) => {
   React.useEffect(() => {
     const timer = setInterval(() => {
       const elapsed = Utils.getTimestamp() - lastActionRef.current
-      //console.log(`Elapsed: ${elapsed} secs`)
+      // console.log(`Elapsed: ${elapsed} secs`)
       if(elapsed >= TIMEOUT_SECONDS) {
         lock()
       }

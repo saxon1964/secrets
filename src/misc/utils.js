@@ -145,3 +145,9 @@ export function formatIsoDate(date) {
 export function getTimestamp() {
   return parseInt((new Date().getTime() + 500.0) / 1000.0)
 }
+
+export function numberFormat(x) {
+  let parts = x.toString().split(".")
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}

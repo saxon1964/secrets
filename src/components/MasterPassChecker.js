@@ -2,31 +2,38 @@ import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 
 const MIN_MASTER_PASS_LENGTH = 8
+const MASTER_PASS_RETRY_INTERVAL = 10 // seconds
 
 const MasterPassChecker = ({target, setMasterPass}) => {
   const [master, setMaster] = React.useState('')
+  const [disabled, setDisabled] = React.useState(false)
 
   const handleMasterChange = (e) => setMaster(e.target.value)
 
   const checkForm = (e) => {
     e.preventDefault()
-    if(master.length < MIN_MASTER_PASS_LENGTH) {
-      Utils.reportError(`Master password must be at least ${MIN_MASTER_PASS_LENGTH} chars long`)
+    try {
+      setDisabled(true)
+      if (master.length < MIN_MASTER_PASS_LENGTH) {
+        // wrong password length
+        throw Error(`Master password must be at least ${MIN_MASTER_PASS_LENGTH} chars long`)
+      }
+      const decrypted = Utils.decrypt(master, target)
+      if (typeof decrypted !== 'string' || decrypted.length == 0) {
+        // decryption has failed
+        throw Error('Wrong master password')
+      }
+      else {
+        // everything ok
+        setMasterPass(master)
+        setDisabled(false)
+      }
     }
-    else {
-      try {
-        const decrypted = Utils.decrypt(master, target)
-        if(typeof decrypted === 'string' && decrypted.length > 0) {
-          setMasterPass(master)
-        }
-        else {
-          // decryption has failed
-          throw Error()
-        }
-      }
-      catch(error) {
-        Utils.reportError("Wrong master password")
-      }
+    catch (error) {
+      Utils.reportError(error)
+      setTimeout(() => {
+        setDisabled(false)
+      }, MASTER_PASS_RETRY_INTERVAL * 1000)
     }
   }
 
@@ -37,14 +44,15 @@ const MasterPassChecker = ({target, setMasterPass}) => {
         <div className="row">
           <div className="col-lg-6">
             <label htmlFor="master">Master password:</label>
-            <input className="form-control" type="password" id="master"
+            <input disabled={disabled} className="form-control" type="password" id="master"
               value={master} onChange={handleMasterChange}/>
           </div>
         </div>
         <div className="row mt-3">
           <div className="col-lg-6">
-            <button type="submit" className="btn btn-sm btn-primary">
-              Submit
+            <button disabled={disabled} type="submit" className="btn btn-sm btn-primary">
+              Submit&nbsp;
+              {disabled? '(please wait)': ''}
             </button>
           </div>
         </div>
