@@ -5,6 +5,8 @@ const HOST_ADDRESS = 'https://secrets.luka.in.rs'
 const AUTH_HEADER_NAME = 'Authorization'
 const AUTH_HEADER_VALUE_PREFIX = 'Bearer: '
 
+export const APP_VERSION = require('../../package.json').version
+
 export function getScriptUrl(path) {
   return `${HOST_ADDRESS}/php/${path}`
 }
