@@ -64,7 +64,7 @@ const EditNote = ({id, data, submitData}) => {
           <div className="col-lg-6 mt-2">
             <NameField id={id} name={name} setName={setName}/>
           </div>
-          <div className="col-lg-6 mt-2">
+          <div className="col-lg-6 mt-2" style={{wordWrap: 'anywhere'}}>
             {existingFile.name == '' && <label htmlFor="fileSelector">Existing file: none</label>}
             {existingFile.name != '' &&
               <span>
