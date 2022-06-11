@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
-import Spinner from './Spinner.js'
 import axios from 'axios'
+import Spinner     from './Spinner.js'
 import EditPass    from './EditPass.js'
 import EditCard    from './EditCard.js'
 import EditNote    from './EditNote.js'
@@ -224,6 +224,8 @@ const SecretList = ({token, masterPass, lock}) => {
     return state.secrets.filter(secret => secret.name.toLowerCase().includes(f))
   }
 
+  const busy = state.loadingSecrets || state.savingSecret || state.deletingSecret
+
   const buttonGroup = (
     <>
       <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
@@ -257,7 +259,7 @@ const SecretList = ({token, masterPass, lock}) => {
         <div className="col-lg-4 mt-2">
           <h5>
             Secrets found: {Object.keys(state.secrets).length}&nbsp;
-            {(state.loadingSecrets || state.deletingSecret) && <Spinner/>}
+            {busy && <span className="text-danger"><Spinner/></span>}
           </h5>
         </div>
         <div className="col-lg-4 mt-2">
