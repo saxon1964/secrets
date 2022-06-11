@@ -7,19 +7,11 @@ import Mandatory from './Mandatory.js'
 const RANDOM_PASSWORD_LENGTH = 12
 
 const EditPass = ({id, data, submitData}) => {
-  const [name, setName] = React.useState('')
-  const [host, setHost] = React.useState('')
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [note, setNote] = React.useState('')
-
-  React.useEffect(() => {
-    setName(data.name || '')
-    setHost(data.host || '')
-    setUsername(data.username || '')
-    setPassword(data.password || '')
-    setNote(data.note || '')
-  }, [id])
+  const [name, setName] = React.useState(data.name || '')
+  const [host, setHost] = React.useState(data.host || '')
+  const [username, setUsername] = React.useState(data.username || '')
+  const [password, setPassword] = React.useState(data.password || '')
+  const [note, setNote] = React.useState(data.note || '')
 
   const createRandomPassword = () => Utils.randomPassword(RANDOM_PASSWORD_LENGTH)
 

@@ -7,27 +7,15 @@ import Mandatory from './Mandatory.js'
 const RANDOM_PASSWORD_LENGTH = 12
 
 const EditDoc = ({id, data, submitData}) => {
-  const [name, setName] = React.useState('')
-  const [fullName, setFullName] = React.useState('')
-  const [country, setCountry] = React.useState('')
-  const [issuer, setIssuer] = React.useState('')
-  const [birth, setBirth] = React.useState('')
-  const [number, setNumber] = React.useState('')
-  const [validFrom, setValidFrom] = React.useState('')
-  const [validTo, setValidTo] = React.useState('')
-  const [note, setNote] = React.useState('')
-
-  React.useEffect(() => {
-    setName(data.name || '')
-    setFullName(data.fullName || '')
-    setCountry(data.country || '')
-    setIssuer(data.issuer || '')
-    setBirth(data.birth || '')
-    setNumber(data.number || '')
-    setValidFrom(data.validFrom || '')
-    setValidTo(data.validTo || '')
-    setNote(data.note || '')
-  }, [id])
+  const [name, setName] = React.useState(data.name || '')
+  const [fullName, setFullName] = React.useState(data.fullName || '')
+  const [country, setCountry] = React.useState(data.country || '')
+  const [issuer, setIssuer] = React.useState(data.issuer || '')
+  const [birth, setBirth] = React.useState(data.birth || '')
+  const [number, setNumber] = React.useState(data.number || '')
+  const [validFrom, setValidFrom] = React.useState(data.validFrom || '')
+  const [validTo, setValidTo] = React.useState(data.validTo || '')
+  const [note, setNote] = React.useState(data.note || '')
 
   const checkForm = (e) => {
     e.preventDefault()

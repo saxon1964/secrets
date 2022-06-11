@@ -7,27 +7,15 @@ import Mandatory from './Mandatory.js'
 const RANDOM_PASSWORD_LENGTH = 12
 
 const EditCard = ({id, data, submitData}) => {
-  const [name, setName] = React.useState('')
-  const [cardType, setCardType] = React.useState('')
-  const [cardHolder, setCardHolder] = React.useState('')
-  const [cardNumber, setCardNumber] = React.useState('')
-  const [expires, setExpires] = React.useState('')
-  const [cvv, setCvv] = React.useState('')
-  const [pin, setPin] = React.useState('')
-  const [account, setAccount] = React.useState('')
-  const [note, setNote] = React.useState('')
-
-  React.useEffect(() => {
-    setName(data.name || '')
-    setCardType(data.cardType || '')
-    setCardHolder(data.cardHolder || '')
-    setCardNumber(data.cardNumber || '')
-    setExpires(data.expires || '')
-    setCvv(data.cvv || '')
-    setPin(data.pin || '')
-    setAccount(data.account || '')
-    setNote(data.note || '')
-  }, [id])
+  const [name, setName] = React.useState(data.name || '')
+  const [cardType, setCardType] = React.useState(data.cardType || '')
+  const [cardHolder, setCardHolder] = React.useState(data.cardHolder || '')
+  const [cardNumber, setCardNumber] = React.useState(data.cardNumber || '')
+  const [expires, setExpires] = React.useState(data.expires || '')
+  const [cvv, setCvv] = React.useState(data.cvv || '')
+  const [pin, setPin] = React.useState(data.pin || '')
+  const [account, setAccount] = React.useState(data.account || '')
+  const [note, setNote] = React.useState(data.note || '')
 
   const checkForm = (e) => {
     e.preventDefault()

@@ -6,19 +6,11 @@ import Mandatory from './Mandatory.js'
 const NO_FILE = { name: '', size: '', content: '' }
 
 const EditNote = ({id, data, submitData}) => {
-  const [name, setName] = React.useState('')
-  const [note, setNote] = React.useState('')
-  const [existingFile, setExistingFile] = React.useState(NO_FILE)
+  const [name, setName] = React.useState(data.name || '')
+  const [note, setNote] = React.useState(data.note || '')
+  const [existingFile, setExistingFile] = React.useState(data.file || NO_FILE)
   const [selectedFile, setSelectedFile] = React.useState(NO_FILE)
   const [removeFile, setRemoveFile] = React.useState(false)
-
-  React.useEffect(() => {
-    setName(data.name || '')
-    setNote(data.note || '')
-    setExistingFile(data.file || NO_FILE)
-    setSelectedFile(NO_FILE)
-    setRemoveFile(data.removeFile || false)
-  }, [id])
 
   const checkForm = (e) => {
     e.preventDefault()
@@ -91,7 +83,7 @@ const EditNote = ({id, data, submitData}) => {
             <textarea rows="4" className="form-control" id="note" value={note} onChange={e => setNote(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            
+
           </div>
           <div className="col-lg-12 mt-2">
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
