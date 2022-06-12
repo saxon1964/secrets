@@ -108,19 +108,22 @@ const SecretList = ({token, masterPass, lock}) => {
 
   // LOAD SECRETS
   React.useEffect(() => {
+    let secrets = []
     if(state.loadingSecrets) {
       axios.get(Utils.getScriptUrl(GET_SECRETS_URL), {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
-        const secrets = result.data.map(secret => {
-          let decrypted = JSON.parse(Utils.decrypt(masterPass, secret.secret))
-          decrypted.id = secret.id
-          return decrypted
+        secrets = result.data.map(secret => {
+           let decrypted = JSON.parse(Utils.decrypt(masterPass, secret.secret))
+           decrypted.id = secret.id
+           return decrypted
         })
+        //console.log(secrets)
         secrets.sort((s1, s2) => s1.name.localeCompare(s2.name))
-        dispatch({type: ACTION_SECRETS_LOADED, payload: secrets})
       }).catch(error => {
         Utils.reportError(`Error while loading secrets: ${error}`)
+      }).finally(() => {
+        dispatch({type: ACTION_SECRETS_LOADED, payload: secrets})
       })
     }
   }, [state.loadingSecrets])
@@ -143,9 +146,10 @@ const SecretList = ({token, masterPass, lock}) => {
           dispatch({type: ACTION_LOAD_SECRETS})
         }
         else {
-          Utils.reportError(`Unknown error: secret not saved, please try again`)
+          throw Error(`Unknown backend error: secret not saved`)
         }
       }).catch(error => {
+        dispatch({type: ACTION_SECRET_SAVED})
         Utils.reportError(`Error while saving secret: ${error}`)
       })
     }
@@ -167,9 +171,10 @@ const SecretList = ({token, masterPass, lock}) => {
           dispatch({type: ACTION_LOAD_SECRETS})
         }
         else {
-          Utils.reportError(`Unknown error: secret not deleted, please try again`)
+          throw Error(`Unknown backend error: secret not deleted`)
         }
       }).catch(error => {
+        dispatch({type: ACTION_SECRET_DELETED})
         Utils.reportError(`Error while saving secret: ${error}`)
       })
     }
@@ -263,9 +268,6 @@ const SecretList = ({token, masterPass, lock}) => {
           </h5>
         </div>
         <div className="col-lg-4 mt-2">
-          <button type="button" className="btn btn-danger" onClick={lock}>Lock screen</button>
-        </div>
-        <div className="col-lg-4 mt-2">
           <div className="input-group">
             <input className="form-control" placeholder="Filter secrets by name" type="text"
               value={state.filter} onChange={handleFilterChange}/>
@@ -275,6 +277,9 @@ const SecretList = ({token, masterPass, lock}) => {
               </button>
             </div>
           </div>
+        </div>
+        <div className="col-lg-4 mt-2">
+          <button type="button" className="btn btn-danger" onClick={lock}>Lock screen</button>
         </div>
       </div>
       <div className="row">
