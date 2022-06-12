@@ -140,9 +140,9 @@ const SecretList = ({token, masterPass, lock}) => {
       axios.post(Utils.getScriptUrl(SAVE_SECRET_URL), formData, {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
+        dispatch({type: ACTION_SECRET_SAVED})
         if(result.data.status == 0) {
           Utils.reportSuccess(`Secret [${data.name}] saved successfully`)
-          dispatch({type: ACTION_SECRET_SAVED})
           dispatch({type: ACTION_LOAD_SECRETS})
         }
         else {
@@ -165,9 +165,9 @@ const SecretList = ({token, masterPass, lock}) => {
       axios.post(Utils.getScriptUrl(DELETE_SECRET_URL), formData, {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
+        dispatch({type: ACTION_SECRET_DELETED})
         if(result.data.status == 0) {
           Utils.reportSuccess(`Secret [${data.name}] deleted successfully`)
-          dispatch({type: ACTION_SECRET_DELETED})
           dispatch({type: ACTION_LOAD_SECRETS})
         }
         else {
