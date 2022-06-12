@@ -17,6 +17,18 @@ const EditDoc = ({id, data, submitData}) => {
   const [validTo, setValidTo] = React.useState(data.validTo || '')
   const [note, setNote] = React.useState(data.note || '')
 
+  React.useEffect(() => {
+    setName(data.name || '')
+    setFullName(data.fullName || '')
+    setCountry(data.country || '')
+    setIssuer(data.issuer || '')
+    setBirth(data.birth || '')
+    setNumber(data.number || '')
+    setValidFrom(data.validFrom || '')
+    setValidTo(data.validTo || '')
+    setNote(data.note || '')
+  }, [data.name])
+
   const checkForm = (e) => {
     e.preventDefault()
     if(name.length == 0) {

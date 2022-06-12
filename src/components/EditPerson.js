@@ -20,6 +20,22 @@ const EditPerson = ({id, data, submitData}) => {
   const [company, setCompany] = React.useState(data.company || '')
   const [note, setNote] = React.useState(data.note || '')
 
+  React.useEffect(() => {
+    setName(data.name || '')
+    setFullName(data.fullName || '')
+    setBirth(data.birth || '')
+    setAddress(data.address || '')
+    setZip(data.zip || '')
+    setCity(data.city || '')
+    setCountry(data.country || '')
+    setEmail1(data.email1 || '')
+    setEmail2(data.email2 || '')
+    setPhone1(data.phone1 || '')
+    setPhone2(data.phone2 || '')
+    setCompany(data.company || '')
+    setNote(data.note || '')
+  }, [data.name])
+
   const checkForm = (e) => {
     e.preventDefault()
     if(name.length == 0) {

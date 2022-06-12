@@ -17,6 +17,18 @@ const EditCard = ({id, data, submitData}) => {
   const [account, setAccount] = React.useState(data.account || '')
   const [note, setNote] = React.useState(data.note || '')
 
+  React.useEffect(() => {
+    setName(data.name || '')
+    setCardType(data.cardType || '')
+    setCardHolder(data.cardHolder || '')
+    setCardNumber(data.cardNumber || '')
+    setExpires(data.expires || '')
+    setCvv(data.cvv || '')
+    setPin(data.pin || '')
+    setAccount(data.account || '')
+    setNote(data.note || '')
+  }, [data.name])
+
   const checkForm = (e) => {
     e.preventDefault()
     if(name.length == 0) {

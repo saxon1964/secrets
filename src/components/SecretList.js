@@ -201,14 +201,12 @@ const SecretList = ({token, masterPass, lock}) => {
   // EDIT/DELETE SECRET
   const secretAction = (id) => {
     if(id == 0) {
-      // secret toggle
       dispatch({type: ACTION_IDLE})
       return
     }
     const secret = state.secrets.find(secret => secret.id == Math.abs(id))
     const payload = {id: Math.abs(id), data: secret}
     if(id >= 0) {
-      // edit secret
       dispatch({type: ACTION_EDIT_SECRET, payload: payload})
     }
     else {

@@ -12,6 +12,14 @@ const EditNote = ({id, data, submitData}) => {
   const [selectedFile, setSelectedFile] = React.useState(NO_FILE)
   const [removeFile, setRemoveFile] = React.useState(false)
 
+  React.useEffect(() => {
+    setName(data.name || '')
+    setNote(data.note || '')
+    setExistingFile(data.file || NO_FILE)
+    setSelectedFile(NO_FILE)
+    setRemoveFile(false)
+  }, [data.name])
+
   const checkForm = (e) => {
     e.preventDefault()
     if(name.length == 0) {
