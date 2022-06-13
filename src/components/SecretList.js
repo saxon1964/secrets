@@ -222,10 +222,8 @@ const SecretList = ({token, masterPass, lock}) => {
 
   const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})
   const clearFilter = (e) => dispatch({type: ACTION_SET_FILTER, payload: ''})
-  const filteredSecrets = () => {
-    const f = state.filter.toLowerCase()
-    return state.secrets.filter(secret => secret.name.toLowerCase().includes(f))
-  }
+  const filterLower = state.filter.toLowerCase()
+  const filteredSecrets = state.secrets.filter(secret => secret.name.toLowerCase().includes(filterLower))
 
   const busy = state.loadingSecrets || state.savingSecret || state.deletingSecret
 
@@ -261,7 +259,8 @@ const SecretList = ({token, masterPass, lock}) => {
       <div className="row mb-3">
         <div className="col-lg-4 mt-2">
           <h5>
-            Secrets found: {Object.keys(state.secrets).length}&nbsp;
+            Secrets: {state.secrets.length}&nbsp;
+            {state.filter != '' && <small className="text-primary">({filteredSecrets.length} shown)&nbsp;</small>}
             {busy && <span className="text-danger"><Spinner/></span>}
           </h5>
         </div>
@@ -281,7 +280,7 @@ const SecretList = ({token, masterPass, lock}) => {
         </div>
       </div>
       <div className="row">
-        {filteredSecrets().map(secret => {
+        {filteredSecrets.map(secret => {
           return (
             <div  className="col-lg-4" key={secret.id}>
               {secret.type == TYPE_PASS    && <ViewPass   secret={secret} secretAction={secretAction}/>}
