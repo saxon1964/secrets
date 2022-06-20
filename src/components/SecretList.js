@@ -231,11 +231,14 @@ const SecretList = ({token, masterPass, lock}) => {
 
   const buttonGroup = (
     <>
-      <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Password</button>
+      <button type="button" className="btn btn-primary" onClick={() => newSecret(TYPE_PASS)}>Pass</button>
       <button type="button" className="btn btn-danger" onClick={() => newSecret(TYPE_CARD)}>Card</button>
       <button type="button" className="btn btn-success" onClick={() => newSecret(TYPE_DOC)}>ID</button>
       <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>Person</button>
       <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>Note</button>
+      <button type="button" className="btn btn-dark" style={{background: 'var(--bs-indigo)'}} onClick={lock}>
+        <i class="fa-solid fa-lock"/>
+      </button>
     </>
   )
 
@@ -275,9 +278,6 @@ const SecretList = ({token, masterPass, lock}) => {
               </button>
             </div>
           </div>
-        </div>
-        <div className="col-lg-4 mt-2">
-          <button type="button" className="btn btn-danger" onClick={lock}>Lock screen</button>
         </div>
       </div>
       <div className="row">
