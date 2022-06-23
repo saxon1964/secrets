@@ -4,7 +4,7 @@ import Spinner from './Spinner.js'
 import MasterPassSelector from './MasterPassSelector.js'
 import MasterPassChecker from './MasterPassChecker.js'
 import SecretList from './SecretList.js'
-import useMasterPass from './hooks/useMasterPass.js'
+import { useMasterPass } from './hooks/usePersistentValue.js'
 import axios from 'axios'
 
 const TARGET_URL = 'getTarget.php'

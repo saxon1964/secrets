@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
-import useMasterPass from './hooks/useMasterPass.js'
+import { useMasterPass } from './hooks/usePersistentValue.js'
 import axios from 'axios'
 import styles from './css/Header.module.css'
 

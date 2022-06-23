@@ -6,12 +6,16 @@ import Login from './Login.js'
 import Register from './Register.js'
 import Secrets from './Secrets.js'
 import SessionChecker from './SessionChecker.js'
+import { useEmail, useToken } from './hooks/usePersistentValue.js'
 
 const Content = () => {
+  const [email, setEmail] = useEmail('')
+  const [token, setToken] = useToken('')
+
   const initState = {
     view: 'HOME',
-    email: localStorage.getItem('email') || '',
-    token: localStorage.getItem('token') || ''
+    email: email,
+    token: token
   }
 
   const stateManager = (state, action) => {
@@ -36,8 +40,8 @@ const Content = () => {
   const [state, dispatch] = React.useReducer(stateManager, initState)
 
   React.useEffect(() => {
-    localStorage.setItem('email', state.email)
-    localStorage.setItem('token', state.token)
+    setEmail(state.email)
+    setToken(state.token)
   }, [state.email, state.token])
 
   return (

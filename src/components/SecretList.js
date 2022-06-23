@@ -20,17 +20,6 @@ const TYPE_NOTE       = 'Secret note'
 const TYPE_DOC        = 'Document'
 const TYPE_PERSON     = 'Person'
 
-const ACTION_LOAD_SECRETS = 1
-const ACTION_SECRETS_LOADED = 2
-const ACTION_NEW_SECRET = 3
-const ACTION_IDLE = 4
-const ACTION_SAVE_SECRET = 5
-const ACTION_SECRET_SAVED = 6
-const ACTION_EDIT_SECRET = 7
-const ACTION_DELETE_SECRET = 8
-const ACTION_SECRET_DELETED = 9
-const ACTION_SET_FILTER = 10
-
 const SAVE_SECRET_URL   = 'saveSecret.php'
 const GET_SECRETS_URL   = 'getSecrets.php'
 const DELETE_SECRET_URL = 'deleteSecret.php'
@@ -79,25 +68,25 @@ const SecretList = ({token, masterPass, lock}) => {
   const stateManager = (state, action) => {
     registerAction()
     switch(action.type) {
-      case ACTION_IDLE:
+      case 'ACTION_IDLE':
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}}
-      case ACTION_LOAD_SECRETS:
+      case 'ACTION_LOAD_SECRETS':
         return {...state, loadingSecrets: true}
-      case ACTION_SECRETS_LOADED:
+      case 'ACTION_SECRETS_LOADED':
         return {...state, secrets: action.payload, loadingSecrets: false}
-      case ACTION_NEW_SECRET:
+      case 'ACTION_NEW_SECRET':
         return {...state, editSecret: {id: 0, data: {type: action.payload}}}
-      case ACTION_EDIT_SECRET:
+      case 'ACTION_EDIT_SECRET':
         return {...state, editSecret: action.payload}
-      case ACTION_SAVE_SECRET:
+      case 'ACTION_SAVE_SECRET':
         return {...state, editSecret: action.payload, savingSecret: true}
-      case ACTION_DELETE_SECRET:
+      case 'ACTION_DELETE_SECRET':
         return {...state, editSecret: action.payload, deletingSecret: true}
-      case ACTION_SECRET_SAVED:
+      case 'ACTION_SECRET_SAVED':
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, savingSecret: false}
-      case ACTION_SECRET_DELETED:
+      case 'ACTION_SECRET_DELETED':
         return {...state, editSecret: {id: 0, data: {type: TYPE_NONE}}, deletingSecret: false}
-      case ACTION_SET_FILTER:
+      case 'ACTION_SET_FILTER':
         return {...state, filter: action.payload}
       default:
         throw new Error('Unknown action type: ' + action.type)
@@ -123,7 +112,7 @@ const SecretList = ({token, masterPass, lock}) => {
       }).catch(error => {
         Utils.reportError(`Error while loading secrets: ${error}`)
       }).finally(() => {
-        dispatch({type: ACTION_SECRETS_LOADED, payload: secrets})
+        dispatch({type: 'ACTION_SECRETS_LOADED', payload: secrets})
       })
     }
   }, [state.loadingSecrets])
@@ -140,16 +129,16 @@ const SecretList = ({token, masterPass, lock}) => {
       axios.post(Utils.getScriptUrl(SAVE_SECRET_URL), formData, {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
-        dispatch({type: ACTION_SECRET_SAVED})
+        dispatch({type: 'ACTION_SECRET_SAVED'})
         if(result.data.status == 0) {
           Utils.reportSuccess(`Secret [${data.name}] saved successfully`)
-          dispatch({type: ACTION_LOAD_SECRETS})
+          dispatch({type: 'ACTION_LOAD_SECRETS'})
         }
         else {
           throw Error(`Unknown backend error: secret not saved`)
         }
       }).catch(error => {
-        dispatch({type: ACTION_SECRET_SAVED})
+        dispatch({type: 'ACTION_SECRET_SAVED'})
         Utils.reportError(`Error while saving secret: ${error}`)
       })
     }
@@ -165,16 +154,16 @@ const SecretList = ({token, masterPass, lock}) => {
       axios.post(Utils.getScriptUrl(DELETE_SECRET_URL), formData, {
         headers: Utils.getAuthorizationHeader(token)
       }).then(result => {
-        dispatch({type: ACTION_SECRET_DELETED})
+        dispatch({type: 'ACTION_SECRET_DELETED'})
         if(result.data.status == 0) {
           Utils.reportSuccess(`Secret [${data.name}] deleted successfully`)
-          dispatch({type: ACTION_LOAD_SECRETS})
+          dispatch({type: 'ACTION_LOAD_SECRETS'})
         }
         else {
           throw Error(`Unknown backend error: secret not deleted`)
         }
       }).catch(error => {
-        dispatch({type: ACTION_SECRET_DELETED})
+        dispatch({type: 'ACTION_SECRET_DELETED'})
         Utils.reportError(`Error while saving secret: ${error}`)
       })
     }
@@ -182,46 +171,46 @@ const SecretList = ({token, masterPass, lock}) => {
 
   // NEW SECRET
   const newSecret = (secretType) => {
-    dispatch({type: ACTION_NEW_SECRET, payload: secretType})
+    dispatch({type: 'ACTION_NEW_SECRET', payload: secretType})
   }
 
   // SAVE SECRET
   const saveSecret = (id, data) => {
     if(data === false) {
-      dispatch({type: ACTION_IDLE})
+      dispatch({type: 'ACTION_IDLE'})
       return
     }
     if(state.secrets.find(secret => secret.name == data.name && secret.id != id)) {
       Utils.reportError(`Secret with name [${data.name}] already exists. Please choose different name`)
       return
     }
-    dispatch({type: ACTION_SAVE_SECRET, payload: {id: id, data: data}})
+    dispatch({type: 'ACTION_SAVE_SECRET', payload: {id: id, data: data}})
   }
 
   // EDIT/DELETE SECRET
   const secretAction = (id) => {
     if(id == 0) {
-      dispatch({type: ACTION_IDLE})
+      dispatch({type: 'ACTION_IDLE'})
       return
     }
     const secret = state.secrets.find(secret => secret.id == Math.abs(id))
     const payload = {id: Math.abs(id), data: secret}
     if(id >= 0) {
-      dispatch({type: ACTION_EDIT_SECRET, payload: payload})
+      dispatch({type: 'ACTION_EDIT_SECRET', payload: payload})
     }
     else {
       // delete secret
       const question = `Are you sure that you want to delete secret [${secret.name}]?`
       Utils.confirmAction('Delete', question).then(result => {
         if(result.isConfirmed) {
-          dispatch({type: ACTION_DELETE_SECRET, payload: payload})
+          dispatch({type: 'ACTION_DELETE_SECRET', payload: payload})
         }
       })
     }
   }
 
-  const handleFilterChange = (e) => dispatch({type: ACTION_SET_FILTER, payload: e.target.value})
-  const clearFilter = (e) => dispatch({type: ACTION_SET_FILTER, payload: ''})
+  const handleFilterChange = (e) => dispatch({type: 'ACTION_SET_FILTER', payload: e.target.value})
+  const clearFilter = (e) => dispatch({type: 'ACTION_SET_FILTER', payload: ''})
   const filterLower = state.filter.toLowerCase()
   const filteredSecrets = state.secrets.filter(secret => secret.name.toLowerCase().includes(filterLower))
 
