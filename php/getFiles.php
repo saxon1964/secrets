@@ -6,22 +6,17 @@ require_once('authCheck.php');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-checkRequestMethod('POST');
+checkRequestMethod('GET');
 $token = getAuthToken();
 
-$status = 1;
 $files = array();
-if($token != null && isset($_POST['id']) && isset($_POST['file'])) {
+if($token != null && isset($_GET['id'])) {
   // check if the current user owns the main secret id
   $token_sql = addslashes($token);
   $user1 = get_single_value("SELECT userid FROM sessions WHERE token='$token_sql' AND status=1");
-  $id = (int) $_POST['id'];
+  $id = (int) $_GET['id'];
   $user2 = get_single_value("SELECT userid FROM secrets WHERE id=$id");
-  //trigger_error("ID: $id", E_USER_ERROR);
   if($user1 != null && $user1 == $user2) {
-    $file_sql = addslashes($_POST['file']);
-    query("INSERT INTO files (secretid, file) VALUES ($id, '$file_sql')");
-    $status = 0;
     $rows = query("SELECT * FROM files WHERE secretid=$id ORDER BY id");
     while($row = $rows->fetch_assoc()) {
       $files[] = $row;
@@ -29,4 +24,4 @@ if($token != null && isset($_POST['id']) && isset($_POST['file'])) {
   }
 }
 
-echo(json_encode(array('status' => $status, 'files' => $files)));
+echo(json_encode($files));

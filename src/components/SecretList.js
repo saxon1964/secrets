@@ -224,7 +224,7 @@ const SecretList = ({token, masterPass, lock}) => {
       <button type="button" className="btn btn-info" onClick={() => newSecret(TYPE_PERSON)}>Person</button>
       <button type="button" className="btn btn-warning" onClick={() => newSecret(TYPE_NOTE)}>Note</button>
       <button type="button" className="btn btn-dark" style={{background: 'var(--bs-indigo)'}} onClick={lock}>
-        <i class="fa-solid fa-lock"/>
+        <i className="fa-solid fa-lock"/>
       </button>
     </>
   )

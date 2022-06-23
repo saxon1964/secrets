@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import NameField from './NameField.js'
 import Mandatory from './Mandatory.js'
+import EditFiles from './EditFiles.js'
 
 const EditNote = ({id, data, submitData}) => {
   const [name, setName] = React.useState(data.name || '')
@@ -38,10 +39,11 @@ const EditNote = ({id, data, submitData}) => {
         <div className="row mb-3">
           <div className="col-lg-6 mt-2">
             <NameField id={id} name={name} setName={setName}/>
+            <label htmlFor="note" className="mt-2">Note:<Mandatory/></label>
+            <textarea rows="4" className="form-control" id="note" value={note} onChange={e => setNote(e.target.value)}/>
           </div>
           <div className="col-lg-6 mt-2">
-            <label htmlFor="note">Note:<Mandatory/></label>
-            <textarea rows="4" className="form-control" id="note" value={note} onChange={e => setNote(e.target.value)}/>
+            <EditFiles id={id}/>
           </div>
           <div className="col-lg-12 mt-2">
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
