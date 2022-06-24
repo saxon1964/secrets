@@ -25,7 +25,6 @@ const EditFiles = ({id}) => {
           const decryptedFile = JSON.parse(Utils.decrypt(masterPass, newFile.file))
           return { ...newFile, file: decryptedFile }
         })
-        console.log(newFiles)
         setFiles(newFiles)
       }).catch(error => {
         Utils.reportError("Error while loading files: " + error)
@@ -87,24 +86,26 @@ const EditFiles = ({id}) => {
           <button type="button" className="btn btn-sm btn-primary me-2" onClick={uploadFile}>Upload</button>
           {busy && <Spinner/>}
           {files.length > 0 && (
-            <table className="table" style={{width: 'auto'}}>
-              <tbody>
-                {files.map(file => (
-                  <tr key={file.id}>
-                    <td>
-                      {file.file.name}
-                    </td>
-                    <td>{Utils.numberFormat(file.file.size)}</td>
-                    <td>
-                      <a href={file.file.content} target="_self" download={file.file.name}>
-                        <i className="fa-solid fa-download" />
-                      </a>
-                    </td>
-                    <td><button type="button" id={file.id} className="btn btn-sm btn-danger" onClick={() => deleteFile(file.id)}><i className="fa-solid fa-circle-minus"/></button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <>
+              <table className="table" style={{width: 'auto'}}>
+                <tbody>
+                  {files.map(file => (
+                    <tr key={file.id}>
+                      <td>
+                        {file.file.name}
+                      </td>
+                      <td>{Utils.numberFormat(file.file.size)}</td>
+                      <td>
+                        <a href={file.file.content} target="_self" download={file.file.name}>
+                          <i className="fa-solid fa-download" />
+                        </a>
+                      </td>
+                      <td><a className="text-danger" onClick={() => deleteFile(file.id)}><i className="fa-solid fa-circle-minus"/></a></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
           )}
         </>
       )}
