@@ -10,7 +10,6 @@ checkRequestMethod('POST');
 $token = getAuthToken();
 
 $status = 1;
-$files = array();
 if($token != null && isset($_POST['id']) && isset($_POST['file'])) {
   // check if the current user owns the main secret id
   $token_sql = addslashes($token);
@@ -22,11 +21,7 @@ if($token != null && isset($_POST['id']) && isset($_POST['file'])) {
     $file_sql = addslashes($_POST['file']);
     query("INSERT INTO files (secretid, file) VALUES ($id, '$file_sql')");
     $status = 0;
-    $rows = query("SELECT * FROM files WHERE secretid=$id ORDER BY id");
-    while($row = $rows->fetch_assoc()) {
-      $files[] = $row;
-    }
   }
 }
 
-echo(json_encode(array('status' => $status, 'files' => $files)));
+echo(json_encode(array('status' => $status)));
