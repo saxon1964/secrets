@@ -6,6 +6,7 @@ import Spinner from "./Spinner.js"
 
 const SAVE_FILE_URL = 'saveFile.php'
 const GET_FILES_URL = 'getFiles.php'
+const DELETE_FILE_URL = 'deleteFile.php'
 
 const EditFiles = ({id}) => {
   const [masterPass] = useMasterPass('')
@@ -17,7 +18,8 @@ const EditFiles = ({id}) => {
   const uploadRef = React.createRef();
 
   React.useEffect(() => {
-    if(id > 0 && reload) {
+    if (id > 0 && reload) {
+      setBusy(true)
       axios.get(Utils.getScriptUrl(GET_FILES_URL), {
         headers: Utils.getAuthorizationHeader(token),
         params: {id}
@@ -31,6 +33,7 @@ const EditFiles = ({id}) => {
         Utils.reportError("Error while loading files: " + error)
       }).finally(() => {
         setReload(false)
+        setBusy(false)
       })
     }
   }, [reload])
@@ -73,8 +76,29 @@ const EditFiles = ({id}) => {
     reader.readAsDataURL(file)
   }
 
-  const deleteFile = (id) => {
-    console.log(id)
+  const deleteFile = (file) => {
+    Utils.confirmAction('Delete file', `Are you sure that you want to delete file '${file.file.name}'?`).then(result => {
+      if (result.isConfirmed) {
+        setBusy(true)
+        let data = new FormData()
+        data.append('id', id)
+        data.append('fileId', file.id)
+        axios.post(Utils.getScriptUrl(DELETE_FILE_URL), data, {
+          headers: Utils.getAuthorizationHeader(token)
+        }).then(result => {
+          if (result.data.status == 0) {
+            setReload(true)
+          }
+          else {
+            throw Error("File delete failed")
+          }
+        }).catch(error => {
+          Utils.reportError("Error while deleting file: " + error)
+        }).finally(() => {
+          setBusy(false)
+        })
+      }
+    })
   }
 
   const handlePreviewFile = (file) => {
@@ -88,17 +112,25 @@ const EditFiles = ({id}) => {
         <>
           <label htmlFor='fileSelector'>Upload file:</label>
           <input ref={uploadRef} type="file" id="fileSelector" className="form-control mb-2"/>
-          <button type="button" className="btn btn-sm btn-primary me-2" onClick={uploadFile}>Upload</button>
+          <button type="button" className="btn btn-sm btn-primary me-2 mb-3" onClick={uploadFile}>Upload</button>
           {busy && <Spinner/>}
           {files.length > 0 && (
             <>
-              <table className="table" style={{width: 'auto'}}>
+              <table className="table table-striped" style={{ width: 'auto' }}>
+                <thead>
+                  <tr>
+                    <th>File name</th>
+                    <th>Bytes</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {files.map(file => (
                     <tr key={file.id}>
                       <td>
                         {file.file.content.startsWith('data:image/') ? (
-                          <a onClick={() => handlePreviewFile(file)} data-bs-toggle="modal" data-bs-target="#imagePreview">
+                          <a href="" onClick={() => handlePreviewFile(file)} style={{ textDecoration: 'none' }}
+                            data-bs-toggle="modal" data-bs-target="#imagePreview" title="Preview">
                             <span className="text-primary">{file.file.name}</span>
                           </a>
                         ) : (
@@ -108,18 +140,21 @@ const EditFiles = ({id}) => {
                       </td>
                       <td>{Utils.numberFormat(file.file.size)}</td>
                       <td>
-                        <a href={file.file.content} target="_self" download={file.file.name}>
+                        <a href={file.file.content} target="_self" download={file.file.name} title="download">
                           <i className="fa-solid fa-download" />
                         </a>
+                        &nbsp;&nbsp;
+                        <a className="text-danger" onClick={() => deleteFile(file)} title="delete">
+                          <i className="fa-solid fa-circle-minus" />
+                        </a>
                       </td>
-                      <td><a className="text-danger" onClick={() => deleteFile(file.id)}><i className="fa-solid fa-circle-minus"/></a></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
 
               <div className="modal fade" id="imagePreview" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" style={{ textAlign: 'center'}}>
+                <div className="modal-dialog modal-lg modal-dialog-centered" style={{ textAlign: 'center'}}>
                   <div className="modal-content">
                     <div className="modal-header">
                       <h5 className="modal-title" id="exampleModalLabel">
@@ -128,11 +163,7 @@ const EditFiles = ({id}) => {
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                      {previewFile && <img style={{maxHeight: 'calc(100vh - 225px)', maxWidth: '100%'}} src={previewFile.file.content}/>}
-                    </div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" className="btn btn-primary">Save changes</button>
+                      {previewFile && <img style={{maxHeight: 'calc(100vh - 175px)', maxWidth: '100%'}} src={previewFile.file.content}/>}
                     </div>
                   </div>
                 </div>
