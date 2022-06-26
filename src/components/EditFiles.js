@@ -13,6 +13,7 @@ const EditFiles = ({id}) => {
   const [files, setFiles] = React.useState([])
   const [busy, setBusy] = React.useState(false)
   const [reload, setReload] = React.useState(true)
+  const [previewFile, setPreviewFile] = React.useState(null)
   const uploadRef = React.createRef();
 
   React.useEffect(() => {
@@ -76,6 +77,10 @@ const EditFiles = ({id}) => {
     console.log(id)
   }
 
+  const handlePreviewFile = (file) => {
+    setPreviewFile(file)
+  }
+
   return (
     <>
       {id == 0 && <p>You will be able to attach files after you save your secret for the first time.</p>}
@@ -92,7 +97,14 @@ const EditFiles = ({id}) => {
                   {files.map(file => (
                     <tr key={file.id}>
                       <td>
-                        {file.file.name}
+                        {file.file.content.startsWith('data:image/') ? (
+                          <a onClick={() => handlePreviewFile(file)} data-bs-toggle="modal" data-bs-target="#imagePreview">
+                            <span className="text-primary">{file.file.name}</span>
+                          </a>
+                        ) : (
+                            file.file.name
+                        )}
+                        
                       </td>
                       <td>{Utils.numberFormat(file.file.size)}</td>
                       <td>
@@ -105,6 +117,26 @@ const EditFiles = ({id}) => {
                   ))}
                 </tbody>
               </table>
+
+              <div className="modal fade" id="imagePreview" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog" style={{ textAlign: 'center'}}>
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="exampleModalLabel">
+                        {previewFile && previewFile.file.name}
+                      </h5>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                      {previewFile && <img style={{maxHeight: 'calc(100vh - 225px)', maxWidth: '100%'}} src={previewFile.file.content}/>}
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </>
           )}
         </>
