@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 import NameField from './NameField.js'
 import Mandatory from './Mandatory.js'
+import EditFiles from './EditFiles.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
 
@@ -120,11 +121,12 @@ const EditPerson = ({id, data, submitData}) => {
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="note">Note:</label>
-            <textarea rows="4" className="form-control" id="note" value={note} onChange={e => setNote(e.target.value)}/>
-          </div>
-          <div className="col-lg-12 mt-2">
+            <textarea rows="4" className="form-control mb-2" id="note" value={note} onChange={e => setNote(e.target.value)} />
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
             <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(id, false)}>Cancel</button>
+          </div>
+          <div className="col-lg-6 mt-2">
+            <EditFiles id={id}/>
           </div>
         </div>
       </form>

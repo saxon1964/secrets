@@ -112,14 +112,14 @@ const EditFiles = ({id}) => {
         <>
           <label htmlFor='fileSelector'>Upload file:</label>
           <input ref={uploadRef} type="file" id="fileSelector" className="form-control mb-2"/>
-          <button type="button" className="btn btn-sm btn-primary me-2 mb-3" onClick={uploadFile}>Upload</button>
+          <button type="button" className="btn btn-sm btn-primary me-2 mb-2" onClick={uploadFile}>Upload</button>
           {busy && <Spinner/>}
           {files.length > 0 && (
             <>
               <table className="table table-striped" style={{ width: 'auto' }}>
                 <thead>
                   <tr>
-                    <th>File name</th>
+                    <th>Attachment</th>
                     <th>Bytes</th>
                     <th>Actions</th>
                   </tr>

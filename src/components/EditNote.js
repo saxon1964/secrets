@@ -40,14 +40,12 @@ const EditNote = ({id, data, submitData}) => {
           <div className="col-lg-6 mt-2">
             <NameField id={id} name={name} setName={setName}/>
             <label htmlFor="note" className="mt-2">Note:<Mandatory/></label>
-            <textarea rows="4" className="form-control" id="note" value={note} onChange={e => setNote(e.target.value)}/>
+            <textarea rows="4" className="form-control mb-2" id="note" value={note} onChange={e => setNote(e.target.value)} />
+            <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
+            <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(id, false)}>Cancel</button>
           </div>
           <div className="col-lg-6 mt-2">
             <EditFiles id={id}/>
-          </div>
-          <div className="col-lg-12 mt-2">
-            <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
-            <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(id, false)}>Cancel</button>
           </div>
         </div>
       </form>

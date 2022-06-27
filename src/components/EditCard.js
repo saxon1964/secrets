@@ -3,6 +3,7 @@ import * as Utils from '../misc/utils.js'
 import EditHidden from './EditHidden.js'
 import NameField from './NameField.js'
 import Mandatory from './Mandatory.js'
+import EditFiles from './EditFiles.js'
 
 const RANDOM_PASSWORD_LENGTH = 12
 
@@ -95,11 +96,12 @@ const EditCard = ({id, data, submitData}) => {
           </div>
           <div className="col-lg-6 mt-2">
             <label htmlFor="note">Note:</label>
-            <textarea rows="4" value={note} id="note" className="form-control" onChange={e => setNote(e.target.value)}/>
-          </div>
-          <div className="col-lg-12 mt-2">
+            <textarea rows="4" value={note} id="note" className="form-control mb-2" onChange={e => setNote(e.target.value)} />
             <button type="submit" className="btn btn-sm btn-primary me-2">Submit</button>
             <button type="button" className="btn btn-sm btn-secondary" onClick={e => submitData(id, false)}>Cancel</button>
+          </div>
+          <div className="col-lg-6 mt-2">
+            <EditFiles id={id} />
           </div>
         </div>
       </form>
