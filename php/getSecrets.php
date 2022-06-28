@@ -15,7 +15,19 @@ if($token != null) {
   $userid = get_single_value("SELECT userid FROM sessions WHERE token='$token_sql' AND status=1");
   $rows = query("SELECT id, secret FROM secrets WHERE userid=$userid");
   while($r = $rows->fetch_assoc()) {
+    $r['files'] = array();
     $secrets[] = $r;
+  }
+  $rows->free();
+  // find all files
+  $rows = query("SELECT id, secretid, file FROM files");
+  while($r = $rows->fetch_assoc()) {
+    foreach($secrets as &$secret) {
+      if($r['secretid'] == $secret['id']) {
+        $secret['files'][] = $r;
+        break;
+      }
+    }
   }
   $rows->free();
 }

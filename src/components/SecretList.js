@@ -105,6 +105,9 @@ const SecretList = ({token, masterPass, lock}) => {
         secrets = result.data.map(secret => {
            let decrypted = JSON.parse(Utils.decrypt(masterPass, secret.secret))
            decrypted.id = secret.id
+           decrypted.files = secret.files.map(file => {
+             return {...file, file: JSON.parse(Utils.decrypt(masterPass, file.file))}
+           })
            return decrypted
         })
         //console.log(secrets)

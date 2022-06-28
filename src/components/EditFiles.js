@@ -119,26 +119,14 @@ const EditFiles = ({id}) => {
               <table className="table table-striped" style={{ width: 'auto' }}>
                 <thead>
                   <tr>
+                    <th>Actions</th>
                     <th>Attachment</th>
                     <th>Bytes</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {files.map(file => (
                     <tr key={file.id}>
-                      <td>
-                        {file.file.content.startsWith('data:image/') ? (
-                          <a href="" onClick={() => handlePreviewFile(file)} style={{ textDecoration: 'none' }}
-                            data-bs-toggle="modal" data-bs-target="#imagePreview" title="Preview">
-                            <span className="text-primary">{file.file.name}</span>
-                          </a>
-                        ) : (
-                            file.file.name
-                        )}
-                        
-                      </td>
-                      <td>{Utils.numberFormat(file.file.size)}</td>
                       <td>
                         <a href={file.file.content} target="_self" download={file.file.name} title="download">
                           <i className="fa-solid fa-download" />
@@ -148,6 +136,17 @@ const EditFiles = ({id}) => {
                           <i className="fa-solid fa-circle-minus" />
                         </a>
                       </td>
+                      <td>
+                        {file.file.content.startsWith('data:image/') ? (
+                          <a href="" onClick={() => handlePreviewFile(file)} style={{ textDecoration: 'none' }}
+                            data-bs-toggle="modal" data-bs-target="#imagePreview" title="Preview">
+                            <span className="text-primary">{file.file.name}</span>
+                          </a>
+                        ) : (
+                            file.file.name
+                        )}                        
+                      </td>
+                      <td>{Utils.numberFormat(file.file.size)}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Utils from '../misc/utils.js'
 
-const ViewTable = ({alertType, secret, expanded, toggle, edit, del, children}) => {
+const ViewTable = ({ alertType, secret, expanded, toggle, edit, del, children }) => {
   return (
     <div className={`alert ${alertType}`}>
       <h5 className="alert-heading mb-0">
