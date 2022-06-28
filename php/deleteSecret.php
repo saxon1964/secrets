@@ -15,6 +15,9 @@ if($token != null && isset($_POST['id'])) {
   $id = abs((int) $_POST['id']);
   $userid = get_single_value("SELECT userid FROM sessions WHERE token='$token_sql' AND status=1");
   $count = query("DELETE FROM secrets WHERE id=$id AND userid=$userid");
+  if($count == 1) {
+    query("DELETE FROM files WHERE secretid=$id");
+  }
   $status = ($count == 1)? 0: 2;
 }
 
