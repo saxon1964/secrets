@@ -12,7 +12,7 @@ const ViewTable = ({ alertType, secret, expanded, toggle, edit, del, children })
       </h5>
       {expanded && (
         <div className="table-responsive">
-          <table className="table table-bordered table-striped mt-3">
+          <table className="table table-bordered table-striped mt-3 mb-0">
             <tbody>
               {children}
               <tr>
