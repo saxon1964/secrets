@@ -14,11 +14,11 @@ const HiddenText = ({text}) => {
   return (
     <>
       {textVisible? text: textPlaceholder}
-      <button className="ms-2 btn btn-sm btn-primary" onClick={toggleText}>
-        {textVisible? <i className="fa-solid fa-eye-slash"/>: <i className="fa-solid fa-eye"/>}
+      <button style={{float: 'right'}} className="ms-2 btn btn-sm btn-primary" onClick={copyText}>
+        <span className="text-white"><i className="fa-solid fa-clone"></i></span>
       </button>
-      <button className="ms-2 btn btn-sm btn-secondary" onClick={copyText}>
-        <i className="fa-regular fa-copy"></i>
+      <button style={{float: 'right'}} className="ms-2 btn btn-sm btn-primary" onClick={toggleText}>
+        {textVisible? <i className="fa-solid fa-eye-slash"/>: <i className="fa-solid fa-eye"/>}
       </button>
     </>
   )

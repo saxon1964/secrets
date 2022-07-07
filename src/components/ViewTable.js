@@ -16,10 +16,15 @@ const ViewTable = ({ alertType, secret, expanded, toggle, edit, del, children })
             <tbody>
               {children}
               <tr>
-                <td colSpan="2">
-                  <button className="btn btn-sm btn-primary me-2" onClick={edit}>Edit</button>
-                  <button className="btn btn-sm btn-danger" onClick={del}>Delete</button>
+                <td style={{whiteSpace: 'nowrap'}}>
+                  <button className="btn btn-sm btn-primary me-2" onClick={edit} title="Edit secret">
+                    <i className="fa-solid fa-pencil"/>
+                  </button>
+                  <button className="btn btn-sm btn-danger" onClick={del} title="Delete secret">
+                    <i className="fa-solid fa-trash-can"/>
+                  </button>
                 </td>
+                <td style={{width: '100%'}}>&nbsp;</td>
               </tr>
             </tbody>
           </table>
