@@ -8,6 +8,8 @@ import Secrets from './Secrets.js'
 import SessionChecker from './SessionChecker.js'
 import { useEmail, useToken } from './hooks/usePersistentValue.js'
 
+const PROD_SERVER_SIGNATURE = 'secret'
+
 const Content = () => {
   const [email, setEmail] = useEmail('')
   const [token, setToken] = useToken('')
@@ -38,6 +40,17 @@ const Content = () => {
   }
 
   const [state, dispatch] = React.useReducer(stateManager, initState)
+
+  // enofrce HTTPS protocol except in case of localhost
+  React.useEffect(() => {
+    if (location.href.toLowerCase().includes(PROD_SERVER_SIGNATURE) && location.protocol.toLowerCase() !== 'https:') {
+      console.log('Enforcing https protocol')
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
+    else {
+      // console.log(`Protocol OK (${location.protocol})`)
+    }
+  }, [])
 
   React.useEffect(() => {
     setEmail(state.email)
